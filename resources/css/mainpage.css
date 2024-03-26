@@ -1,0 +1,87 @@
+.tableContainer{
+    width: auto;
+    height: 100%;
+    padding: 20px;
+}
+.generalTable{
+    border: 1px solid #1f396a;
+    width: 100%;
+    text-align: center;
+    margin: 40px;
+}
+.fileLink{
+    color: blue;
+    text-decoration: underline;
+}
+.deleteLink{
+    color: red;
+    text-decoration: underline;
+}
+.item{
+    border-top: 1px solid black;
+    padding: 10px;
+}
+.firstItem{
+    background-color: #1f396a;
+    color: #ffffff;
+}
+.adminText{
+    margin-top: 15px;
+    font-size: 30px;
+}
+.searchContainer{
+    width: 620px;
+    height: 330px;
+    padding-left: 50px;
+    border-radius: 20px;
+    margin-bottom: 50px;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: left;
+    background-color: #1f396a;
+}
+.searchInput{
+    border-radius: 5px;
+    padding: 5px;
+    width: 267px;
+}
+.buttonContainer{
+    display: flex;
+    justify-content: right;
+    padding-right: 50px;
+    margin-bottom: 10px;
+}
+.searchButton {
+    background-color: #007bff;
+    color: #ffffff;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 5px;
+    height: 40px;
+}
+.cleanButton {
+    margin: 5px;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 8px;
+    height: 40px;
+}
+.dateInput, .searchInput, .dateInputText{
+    margin-top: 20px;
+}
+.dateInputText{
+    width: 200px;
+    margin-right: 10px;
+}
+.dateInput{
+    margin-left: 10px;
+}
+.dateInput2{
+    margin-left: 25px;
+}
+.dateInputText{
+    color: #ffffff;
+}
