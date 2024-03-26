@@ -24,7 +24,9 @@
 input{
     border-radius: 5px;
     padding: 2px;
-    background-color: #ffffff;
+}
+input:hover{
+    background-color: #ffffffa9;
 }
 .submitButton{
     margin-top: 10px;
@@ -33,13 +35,31 @@ input{
     color: #ffffff;
     padding: 10px;
 }
+.submitButton:hover{
+    background-color: #005ec2;
+}
 .formLinks{
     margin-top: 30px;
     color: #ffffff;
     text-decoration: underline;
 }
+.formLinks:hover{
+    color: #ffffffa9;
+}
 .tittle{
     font-size: 30px;
     margin-bottom: 30px;
     color: #ffffff;
+}
+.imageTemplate{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
+}
+.imageTemplate p{
+    color: red;
+    font-size: 20px;
+    margin-bottom: 15px;
 }

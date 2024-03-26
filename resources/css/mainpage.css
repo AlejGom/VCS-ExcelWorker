@@ -47,6 +47,9 @@
     padding: 5px;
     width: 267px;
 }
+.searchInput:hover{
+    background-color: #ffffffa9;
+}
 .buttonContainer{
     display: flex;
     justify-content: right;
@@ -61,6 +64,9 @@
     padding: 5px;
     height: 40px;
 }
+.searchButton:hover{
+    background-color: #005ec2;
+}
 .cleanButton {
     margin: 5px;
     border-radius: 5px;
@@ -68,6 +74,9 @@
     color: #ffffff;
     padding: 8px;
     height: 40px;
+}
+.cleanButton:hover{
+    background-color: #005ec2;
 }
 .dateInput, .searchInput, .dateInputText{
     margin-top: 20px;
@@ -84,4 +93,11 @@
 }
 .dateInputText{
     color: #ffffff;
+}
+.dateInput:hover{
+    background-color: #ffffffa9;
+}
+.trashIcon{
+    width: 30px;
+    height: 30px;
 }

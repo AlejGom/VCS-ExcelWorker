@@ -49,7 +49,7 @@
                     @if (auth()->user()->name === 'admin')
                         <td class="item"><a class="fileLink" href="{{ route('readFile', ['id' => $file->id]) }}">{{ $file->user->name }}</a></td>
                     @endif
-                    <td class="item"><a class="deleteLink" href="{{ route('deleteFile', ['id' => $file->id]) }}">Eliminar</a></td>
+                    <td class="item"><a class="deleteLink" href="{{ route('deleteFile', ['id' => $file->id]) }}"><img class="trashIcon" src="{{ asset('../resources/images/papelera.png') }}"></a></td>
                 </tr>
             @endforeach
         </tbody>

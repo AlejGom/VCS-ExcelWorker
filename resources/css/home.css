@@ -81,6 +81,9 @@ body {
     color: #fff;
     text-decoration: none;
 }
+.links a:hover, .menuLinks a:hover, .logout:hover {
+    text-decoration: underline;
+}
 .imageMenu{
     background-color: #1f396a;
     color: #fff;
@@ -95,3 +98,4 @@ body {
     width: 80px;
     margin-bottom: 30px;
 }
+
