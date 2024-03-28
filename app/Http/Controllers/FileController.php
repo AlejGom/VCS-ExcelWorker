@@ -34,7 +34,9 @@ class FileController extends Controller
     // *************************************************************
     // File manager functions
 
-    // Funcion para subir un archivo
+    // -------------------------------------------------------------
+    // ----------------Funcion para subir un archivo----------------
+    // -------------------------------------------------------------
     public function uploadFile(Request $request) {
         $this->validate($request, [
             'file'     => 'required|file',
@@ -67,8 +69,9 @@ class FileController extends Controller
         /* return back()->with('success','Archivo subido con exito'); */
         return redirect('/mainPage')->with('success','Archivo subido con exito');
     }
-    
-    // Funcion para leer un archivo
+    // ------------------------------------------------------------
+    // ----------------Funcion para leer un archivo----------------
+    // ------------------------------------------------------------
     public function readFile($fileId, Request $request) {
 
         // search file with id and save in $file 
@@ -171,6 +174,9 @@ class FileController extends Controller
     
     }
     
+    // --------------------------------------------------------------------
+    // ----------------Funcion para mostrar archivos en main---------------
+    // --------------------------------------------------------------------
     public function loadFiles() {
         if(auth()->user()->name === 'admin') {
             $files = File::orderBy('created_at', 'desc')->get();
@@ -182,6 +188,9 @@ class FileController extends Controller
         return $files;
     }
 
+    // -------------------------------------------------------------------
+    // ----------------Funcion para borrar archivos-----------------------
+    // -------------------------------------------------------------------
     public function deleteFile($fileId) {
         $file = File::find($fileId);
         Storage::delete($file->file_path);
@@ -190,6 +199,9 @@ class FileController extends Controller
         return redirect('/mainPage');
     }
 
+    // -------------------------------------------------------------------
+    // ----------------Funcion para actualizar celda----------------------
+    // -------------------------------------------------------------------
     public function updateCell(Request $request) {
 
         $fileId   = $request->input('fileId');
@@ -227,18 +239,28 @@ class FileController extends Controller
     // *************************************************************
     // Other functions
 
-    public function increaseRowsInView() {
+    // ---------------------------------------------------------------------
+    // ----------------Funcion para aumentar filas--------------------------
+    // ---------------------------------------------------------------------
+    // deprecated
+    /* public function increaseRowsInView() {
         $currentRows = session()->get('currentRows', 500);
         $newRows     = $currentRows + 500;
         Session::put('currentRows', $newRows);
         return redirect()->back();
-    }
+    } */
 
+    // ----------------------------------------------------------------
+    // ----------------Funcion para volver al main---------------------
+    // ----------------------------------------------------------------
     public function goBack() {
         Session::forget('currentRows');
         return redirect('/mainPage');
     }
 
+    // ----------------------------------------------------------------
+    // ----------------Funcion para descargar archivo------------------
+    // ----------------------------------------------------------------
     public function downloadFile($fileId) {
         $file     = File::find($fileId);
         $filePath = storage_path('app/' . $file->file_path);
@@ -246,6 +268,9 @@ class FileController extends Controller
         return response()->download($filePath, $fileName);
     }
 
+    // ----------------------------------------------------------------------
+    // ----------------Funcion para leer y convertir fechas------------------
+    // ----------------------------------------------------------------------
     private function readAndConvertDates($file) {
      
         $filePath = storage_path('app/' . $file->file_path);
@@ -274,6 +299,10 @@ class FileController extends Controller
         $writer->save($filePath);
         
     }
+    
+    // -----------------------------------------------------------------
+    // ----------------Funcion para parsear fechas----------------------
+    // -----------------------------------------------------------------
     private function parseDate($value) {
         $formats = ['d/m/Y', 'm/d/Y', 'Y-m-d', 'Y/m/d', 'd-m-Y', 'd/m/Y H:i:s'];
 

@@ -10,7 +10,7 @@ use App\Models\User;
 
 class FilterController extends Controller
 {
-        /**
+    /**
      * Filtrar datos del archivo Excel por texto.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -19,16 +19,16 @@ class FilterController extends Controller
      */
     public function filterData(Request $request, $id)
     {
-        // Obtener el archivo
+        // Obtain file
         $file     = File::find($id);
         $filePath = storage_path('app/' . $file->file_path);
 
-        // Verificar la existencia del archivo
+        // verify file
         if (!file_exists($filePath)) {
             return redirect('/mainPage')->with('error', 'El archivo no existe');
         }
 
-        // Obtener el texto de búsqueda del formulario
+        // Obtain the text to search from the form
         /* $searchText = $request->input('search_text'); */
         if (isset($request->search_text)) {
             $searchText = $request->search_text;
@@ -36,12 +36,12 @@ class FilterController extends Controller
             $searchText = '';
         }
 
-        // Comprobar si se ha proporcionado un texto de búsqueda
+        // verify search text
         if (!$searchText) {
             return redirect()->back()->with('error', 'Por favor, proporcione un texto de búsqueda');
         }
 
-        // Cargar el archivo
+        // load file
         $reader      = IOFactory::createReaderForFile($filePath);
         $reader->setReadDataOnly(true);
         $spreadsheet = $reader->load($filePath);
@@ -57,7 +57,7 @@ class FilterController extends Controller
             $firstLane[] = $cell->getValue();
         }
 
-        // Empezar a leer desde la segunda fila
+        // read data from second row
         foreach ($sheet->getRowIterator(3) as $row) {
             $rowData = [$rowCount + 1];
             foreach ($row->getCellIterator() as $cell) {
@@ -67,7 +67,7 @@ class FilterController extends Controller
             $rowCount++;
         }
 
-        // Aplicar el filtro por texto
+        // apply filters
         $filteredData = array_filter($data, function ($row) use ($searchText) {
             foreach ($row as $cellValue) {
                 if (stripos($cellValue, $searchText) !== false) {
@@ -81,7 +81,7 @@ class FilterController extends Controller
         $maxRows     = count($data);
         $users       = User::all();
         /* dd($filteredData); */
-        // Retornar vista con los datos filtrados
+        // return view with data
         return view('readFile', [
             'filteredData' => $filteredData,
             'file'         => $file, 
@@ -95,6 +95,9 @@ class FilterController extends Controller
         ]);
     }
 
+    // -----------------------------------------------------------------
+    // ------------------funcion para filtrar archivos------------------
+    // -----------------------------------------------------------------
     public function filterFiles(Request $request) {
 
         $searchText = $request->input('search_text');
@@ -135,8 +138,9 @@ class FilterController extends Controller
             'users'      => $users,
         ]);
     }
-
-    // deprecated
+    // --------------------------------------------------------
+    // -----------------------deprecated-----------------------
+    // --------------------------------------------------------
     /* public function filterFiles(Request $request) {
         
         $searchText = $request->input('search_text');
@@ -170,7 +174,7 @@ class FilterController extends Controller
     $startDate = $request->input('start_date');
     $endDate   = $request->input('end_date');
 
-    // Filtrar archivos por rango de fechas
+    // filter by date
     $userId = auth()->user()->id;
     if (auth()->user()->name === 'admin') {
         $files  = File::whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate)->get();   
@@ -180,7 +184,7 @@ class FilterController extends Controller
 
     $filtered = true;
 
-    // Retornar la vista con los archivos filtrados
+    // return view with data
     return view('mainPage', [
         'files'     => $files,
         'filtered'  => $filtered,
