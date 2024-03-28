@@ -7,13 +7,28 @@
     <form method="POST" action="{{ url('/uploadFile') }}" enctype="multipart/form-data">
         @csrf
         <label for="file" class="fileLabel">Selecciona un archivo:</label>
-        <input class="imageInput" type="file" name="file"><br><br>
-        <button class="submitButton" type="submit">Enviar archivo</button><br>
+        <input class="imageInput" type="file" name="file" id="fileInput"><br><br>
+        <input class="fileNameInput" type="text" name="fileName" id="fileName" placeholder="Nombre del archivo"><br><br>
+        <button class="submitButton" type="submit" onclick="showLoading()">Enviar archivo</button><br>
     </form>
+</div>
+<div id="loadingGif" style="display: none;">
+    <img src="{{ asset('../resources/images/loading.gif') }}">
 </div>
 <div class="imageTemplate">
     <p>El archivo excel debe tener dos filas al inicio, la segunda con los nombres de las columnas</p>
     <img src="{{ asset('../resources/images/CapturaPlantilla.PNG') }}">
 </div>
+
+<script>
+    document.getElementById('fileInput').addEventListener('change', function() {
+        var fileName = this.files[0].name;
+        document.getElementById('fileName').value = fileName;
+    });
+    
+    function showLoading() {
+        document.getElementById('loadingGif').style.display = 'block';
+    }
+</script>
 
 @endsection

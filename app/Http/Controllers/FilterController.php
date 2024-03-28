@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\File;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Facades\Session;
+use App\Models\User;
 
 class FilterController extends Controller
 {
@@ -48,6 +49,7 @@ class FilterController extends Controller
 
         $data = [];
         $rowCount = 0;
+        $currentPage = Session::get('currentPage', 1);
 
         $firstLane = [];
         $firstRow  = $sheet->getRowIterator(2)->current();
@@ -77,6 +79,7 @@ class FilterController extends Controller
 
         $currentRows = Session::get('currentRows', 500);
         $maxRows     = count($data);
+        $users       = User::all();
         /* dd($filteredData); */
         // Retornar vista con los datos filtrados
         return view('readFile', [
@@ -86,7 +89,10 @@ class FilterController extends Controller
             'maxRows'      => $maxRows, 
             'data'         => $data, 
             'inputText'    => $request->input('search_text'), 
-            'firstLane'    => $firstLane]);
+            'firstLane'    => $firstLane,
+            'currentPage'  => $currentPage,
+            'users'        => $users,
+        ]);
     }
 
     public function filterFiles(Request $request) {
@@ -94,6 +100,7 @@ class FilterController extends Controller
         $searchText = $request->input('search_text');
         $startDate  = $request->input('start_date');
         $endDate    = $request->input('end_date');
+        $searchUser = $request->input('search_user');
 
         $userId = auth()->user()->id;
         if (auth()->user()->name === 'admin') {
@@ -110,15 +117,22 @@ class FilterController extends Controller
             $query->whereDate('created_at','>=', $startDate)->whereDate('created_at','<=', $endDate);
         }
 
-        $files = $query->orderBy('created_at','desc')->get();
+        if ($searchUser) {
+            $query->where('user_id', $searchUser);
+        }
+
+        $files    = $query->orderBy('created_at','desc')->get();
         $filtered = true;
+        $users    = User::all();
 
         return view('mainPage', [
-            'files'     => $files,
-            'inputText' => $searchText,
-            'filtered'  => $filtered,
-            'startDate' => $startDate,
-            'endDate'   => $endDate,
+            'files'      => $files,
+            'inputText'  => $searchText,
+            'filtered'   => $filtered,
+            'startDate'  => $startDate,
+            'endDate'    => $endDate,
+            'searchUser' => $searchUser,
+            'users'      => $users,
         ]);
     }
 

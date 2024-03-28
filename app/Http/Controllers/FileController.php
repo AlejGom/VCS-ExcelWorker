@@ -9,6 +9,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx as WriterXlsx;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use Illuminate\Support\Facades\Session;
+use App\Models\User;
 
 class FileController extends Controller
 {   
@@ -21,10 +22,12 @@ class FileController extends Controller
     public function mainPage() {
         $files    = $this->loadFiles();
         $filtered = false;
+        $users    = User::all();
         /* return view('mainpage'); */
         return view('mainpage', [
             'files' => $files,
-            'filtered' => $filtered
+            'filtered' => $filtered,
+            'users' => $users,
         ]);
     }
 
@@ -34,14 +37,15 @@ class FileController extends Controller
     // Funcion para subir un archivo
     public function uploadFile(Request $request) {
         $this->validate($request, [
-            'file' => 'required|file',
+            'file'     => 'required|file',
+            'fileName' => 'required',
         ]);
     
         $uploadFile  = $request->file('file');
-        $fileName    = $uploadFile->getClientOriginalName();
+        /* $fileName    = $uploadFile->getClientOriginalName(); */
+        $fileName    = $request->input('fileName');
         $filePath    = $uploadFile->store('public/files');
         $fileSize    = $uploadFile->getSize();
-
         // deprecated
         /* $fileContent = file_get_contents($uploadFile->getPathname()); */
 
@@ -65,9 +69,11 @@ class FileController extends Controller
     }
     
     // Funcion para leer un archivo
-    public function readFile($fileId) {
+    public function readFile($fileId, Request $request) {
 
+        // search file with id and save in $file 
         $file     = File::find($fileId);
+        // save file path of $file
         $filePath = storage_path('app/' . $file->file_path);
 
         // deprecated
@@ -78,10 +84,13 @@ class FileController extends Controller
 
         /* $reader = new ReaderXlsx(); */
         /* $extension = pathinfo($file, PATHINFO_EXTENSION); */
+        
+        // read file extension and save in $extension
         $extension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
 
         /* dd($extension); */
 
+        // switch returned data into data to IOFactory
         switch ($extension) {
             case 'xlsx': $extensionCode = 'Xlsx'; break;
             case 'xls':  $extensionCode = 'Xls'; break;
@@ -92,20 +101,24 @@ class FileController extends Controller
         /* dd($extension); */
         /* dd($extensionCode); */
 
+        // read file with extension
         $reader      = IOFactory::createReader($extensionCode);
+        // load file
         $spreadsheed = $reader->load($filePath);
         $sheet       = $spreadsheed->getActiveSheet();
 
+        // declare variables
         $data     = [];
         $rowCount = -2;
-
         $firstLane = [];
+
+        // read first row "tittles of columns"
         $firstRow  = $sheet->getRowIterator(2)->current();
         foreach ($firstRow->getCellIterator() as $cell) {
             $firstLane[] = $cell->getValue();
         }
         
-        // read file
+        // read file rows and save in $data[]
         foreach($sheet->getRowIterator() as $row) {
             $rowData = [$rowCount + 1];
             foreach($row->getCellIterator() as $cell) {
@@ -113,16 +126,21 @@ class FileController extends Controller
                 /* dd($rowData); */
             }
             $data[] = $rowData;
+
+            // aux to add number of  the file
             $rowCount++;
             
-            $currentRows = Session::get('currentRows', 500);
+            // save current rows in session
+            $currentRows = Session::get('currentRows', 100);
     
-            if($rowCount >= $currentRows) {
-                break;
-            }
         }
         
         $maxRows = count($data);
+        $perPage = 100;
+        $page    = $request->query('page', 1);
+        $offset  = ($page - 1) * $perPage;
+
+        $pagedData = array_slice($data, $offset, $perPage);
         
         /* dd($maxRows); */
         // reverse array to descendent
@@ -138,14 +156,18 @@ class FileController extends Controller
         } */
 
         $filteredData = null;
+        $users = User::all();
         
         return view('readFile', [
-            'data'         => $data,
+            'data'         => $pagedData,
             'maxRows'      => $maxRows,
             'currentRows'  => $currentRows,
             'file'         => $file,
             'filteredData' => $filteredData,
-            'firstLane'    => $firstLane]);
+            'firstLane'    => $firstLane,
+            'currentPage'  => $page,
+            'users'        => $users,
+        ]);
     
     }
     
@@ -220,7 +242,8 @@ class FileController extends Controller
     public function downloadFile($fileId) {
         $file     = File::find($fileId);
         $filePath = storage_path('app/' . $file->file_path);
-        return response()->download($filePath);
+        $fileName = User::find($file->user_id)->name . $file->name;
+        return response()->download($filePath, $fileName);
     }
 
     private function readAndConvertDates($file) {
@@ -237,7 +260,7 @@ class FileController extends Controller
         }
 
         $reader      = IOFactory::createReader($extensionCode);
-        $spreadsheet = $reader->load($filePath);
+        $spreadsheet = $reader->load($filePath);        
         $sheet       = $spreadsheet->getActiveSheet();
 
         foreach ($sheet->getRowIterator() as $row) {

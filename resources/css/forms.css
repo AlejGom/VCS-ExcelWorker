@@ -20,10 +20,12 @@
 .imageInput{
     width: 500px;
     height: 50px;
+    background-color: #ffffff;
 }
 input{
     border-radius: 5px;
     padding: 2px;
+    height: 35px;
 }
 input:hover{
     background-color: #ffffffa9;
@@ -62,4 +64,7 @@ input:hover{
     color: red;
     font-size: 20px;
     margin-bottom: 15px;
+}
+.fileNameInput{
+    width: 500px;
 }
