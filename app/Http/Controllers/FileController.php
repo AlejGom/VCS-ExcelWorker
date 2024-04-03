@@ -51,7 +51,6 @@ class FileController extends Controller
         // deprecated
         /* $fileContent = file_get_contents($uploadFile->getPathname()); */
 
-
         $file            = new File();
         $file->name      = $fileName;
         $file->file_path = $filePath;
@@ -61,8 +60,10 @@ class FileController extends Controller
         // deprecated
         /* $file->name    = $uploadFile->getClientOriginalName(); */
         /* $file->content = $fileContent; */
-        $this->readAndConvertDates($file);
 
+        // MANDAR A LEER EL ARCHIVO Y CAMBIAR FECHAS
+        /* $this->readAndConvertDates($file); */
+    
         $file->save();
         
 
@@ -107,12 +108,14 @@ class FileController extends Controller
         // read file with extension
         $reader      = IOFactory::createReader($extensionCode);
         // load file
+        
         $spreadsheed = $reader->load($filePath);
+        
         $sheet       = $spreadsheed->getActiveSheet();
 
         // declare variables
-        $data     = [];
-        $rowCount = -2;
+        $data      = [];
+        $rowCount  = -2;
         $firstLane = [];
 
         // read first row "tittles of columns"
@@ -271,11 +274,13 @@ class FileController extends Controller
     // ----------------------------------------------------------------------
     // ----------------Funcion para leer y convertir fechas------------------
     // ----------------------------------------------------------------------
-    private function readAndConvertDates($file) {
-     
-        $filePath = storage_path('app/' . $file->file_path);
-        $extension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));   
+    public function readAndConvertDates($fileId) {
 
+        $file = File::find($fileId);
+
+        $filePath  = storage_path('app/' . $file->file_path);
+        $extension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+        
         switch ($extension) {
             case 'xlsx': $extensionCode = 'Xlsx'; break;
             case 'xls':  $extensionCode = 'Xls'; break;
@@ -285,7 +290,9 @@ class FileController extends Controller
         }
 
         $reader      = IOFactory::createReader($extensionCode);
-        $spreadsheet = $reader->load($filePath);        
+
+        $spreadsheet = $reader->load($filePath);      
+
         $sheet       = $spreadsheet->getActiveSheet();
 
         foreach ($sheet->getRowIterator() as $row) {
@@ -297,9 +304,11 @@ class FileController extends Controller
 
         $writer = IOFactory::createWriter($spreadsheet, $extensionCode);
         $writer->save($filePath);
+
+        return redirect('/files/' . $fileId);
         
-    }
-    
+    }   
+
     // -----------------------------------------------------------------
     // ----------------Funcion para parsear fechas----------------------
     // -----------------------------------------------------------------

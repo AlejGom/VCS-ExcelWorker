@@ -17,6 +17,7 @@
 <div class="buttonContainer">
     <a href="{{ route('goBack') }}"><button class="backButton">Volver</button></a>
 </div>
+<a class="dateButton" href="{{ route('readAndConvertDates', $file->id) }}"><button>Cambiar fechas</button></a>
 <div class="searchContainer">
     <form action="{{ route('filterData', ['id' => $file->id]) }}" method="POST">
         @csrf

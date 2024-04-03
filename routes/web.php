@@ -51,6 +51,8 @@ Route::get('/goBack', [FileController::class,'goBack'])->name('goBack')->middlew
 
 Route::get('/downloadFile/{id}', [FileController::class,'downloadFile'])->name('downloadFile')->middleware('auth');
 
+Route::get('/readAndConvertDates/{id}', [FileController::class,'readAndConvertDates'])->name('readAndConvertDates')->middleware('auth');
+
 // -------------------------------------------------------------------------------
 // Filters
 

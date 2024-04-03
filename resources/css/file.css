@@ -146,6 +146,16 @@
     cursor: pointer;
     width: 50px;
 }
+.dateButton{
+    text-align: center;
+    width: 150px;
+    padding: 10px;
+    margin: 20px;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #ffffff;
+
+}
 /* .pagination a:hover{
     text-decoration: underline;
 } */
