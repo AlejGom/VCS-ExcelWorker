@@ -13,7 +13,7 @@
     color: blue;
     text-decoration: underline;
 }
-.deleteLink{
+.deleteLink, .editLink{
     color: red;
     text-decoration: underline;
 }
@@ -45,7 +45,7 @@
 .searchInput{
     border-radius: 5px;
     padding: 5px;
-    width: 298px;
+    width: 378px;
 }
 .searchInput:hover{
     background-color: #ffffffa9;
@@ -86,7 +86,7 @@
     margin-right: 10px;
 }
 .dateInput{
-    width: 160px;
+    width: 240px;
     margin-left: 10px;
 }
 .dateInput2{
@@ -99,16 +99,17 @@
     background-color: #ffffffa9;
     cursor: pointer;
 }
-.trashIcon{
+.trashIcon, .editIcon{
     width: 30px;
     height: 30px;
 }
 .searchUserInput{
     background-color: #ffffff;
     margin-top: 20px;
+    margin-bottom: 20px;
     border-radius: 5px;
     padding: 5px;
-    width: 225px;
+    width: 305px;
 
 }
 .searchUserInput:hover{

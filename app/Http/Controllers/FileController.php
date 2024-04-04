@@ -23,11 +23,12 @@ class FileController extends Controller
         $files    = $this->loadFiles();
         $filtered = false;
         $users    = User::all();
+
         /* return view('mainpage'); */
         return view('mainpage', [
-            'files' => $files,
+            'files'    => $files,
             'filtered' => $filtered,
-            'users' => $users,
+            'users'    => $users,
         ]);
     }
 
@@ -187,7 +188,6 @@ class FileController extends Controller
             $files = File::where('user_id', auth()->id())->orderBy('created_at', 'desc')->get();    
         }
 
-        
         return $files;
     }
 
@@ -200,6 +200,17 @@ class FileController extends Controller
         $file->delete();
 
         return redirect('/mainPage');
+    }
+
+    // -------------------------------------------------------------------
+    // ----------------Funcion para editar archivos-----------------------
+    // -------------------------------------------------------------------
+    public function editFileName(Request $request, $id) {
+        $file = File::findOrFail($id);
+        $file->name = $request->input('newFileName');
+        $file->save();
+
+        return redirect('/files/' . $file->id);
     }
 
     // -------------------------------------------------------------------

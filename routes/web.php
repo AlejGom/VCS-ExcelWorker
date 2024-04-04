@@ -39,6 +39,8 @@ Route::get('/files/{id}', [FileController::class,'readFile'])->name('readFile')-
 
 Route::get('/deleteFile/{id}', [FileController::class,'deleteFile'])->name('deleteFile')->middleware('auth');
 
+Route::post('/editFileName/{id}', [FileController::class, 'editFileName'])->name('editFileName');
+
 Route::post('/updateCell', [FileController::class,'updateCell'])->name('updateCell')->middleware('auth');
 
 // -------------------------------------------------------------------------------

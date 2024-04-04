@@ -146,7 +146,16 @@
     cursor: pointer;
     width: 50px;
 }
-.dateButton{
+.manageButtonsContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: #1f396a;
+    width: 100%;
+
+}
+.dateButton, .editFileNameButton{
     text-align: center;
     width: 150px;
     padding: 10px;
@@ -154,7 +163,17 @@
     border-radius: 5px;
     background-color: #007bff;
     color: #ffffff;
+}
+/* .editFileNameForm, .filterDataForm{
+    margin-left: 50px;
+} */
+.spaceBetween{
+    width: 0;
+    height: 30px;
+    margin-right: 40px;
+    margin-left: 20px;
 
+    border: 1px solid #f5f5f5;
 }
 /* .pagination a:hover{
     text-decoration: underline;

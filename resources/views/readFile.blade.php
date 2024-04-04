@@ -10,6 +10,31 @@
     @endif
 @endif
 <link rel="stylesheet" href="{{ asset('../resources/css/file.css') }}">
+
+<!-- Container to manage submenu -->
+<div class="manageButtonsContainer">
+    <!-- Convert dates to specific date -->
+    <a class="dateButton" href="{{ route('readAndConvertDates', $file->id) }}"><button>Cambiar fechas</button></a>
+    <div class="spaceBetween"></div>
+    <!-- Edit file name -->
+    <form class="editFileNameForm" action="{{ route('editFileName', $file->id) }}" method="POST">
+        @csrf
+        <input class="searchInput" type="text" name="newFileName" id="newFileName" value="{{ $file->name }}">
+        <a class="editFileNameButton" href="{{ route('editFileName', $file->id) }}"><button>Editar Nombre</button></a>        
+    </form>
+    <div class="spaceBetween"></div>
+    <!-- Filter data by text -->
+    <form class="filterDataForm" action="{{ route('filterData', ['id' => $file->id]) }}" method="POST">
+        @csrf
+        <!-- <label for="search_text">Texto de Búsqueda:</label> -->
+        <input class="searchInput" type="text" name="search_text" id="search_text" placeholder="Texto de Búsqueda" @if (isset($inputText)) value="{{ $inputText }}" @endif>
+        <button onclick="showLoading()" class="searchButton" type="submit">Búsqueda</button>
+    </form>
+    <!-- Clean filter -->
+    @if ($filteredData)
+        <a href="{{ route('readFile', $file->id) }}"><button class="cleanButton">Limpiar filtro</button></a>
+    @endif
+</div>
 <div class="downloadContainer">
     <p><b>Descargar</b></p>
     <a class="fileName" href="{{ route('downloadFile', $file->id) }}"><b>{{ $file->name }}</b></a>
@@ -17,23 +42,18 @@
 <div class="buttonContainer">
     <a href="{{ route('goBack') }}"><button class="backButton">Volver</button></a>
 </div>
-<a class="dateButton" href="{{ route('readAndConvertDates', $file->id) }}"><button>Cambiar fechas</button></a>
-<div class="searchContainer">
-    <form action="{{ route('filterData', ['id' => $file->id]) }}" method="POST">
-        @csrf
-        <!-- <label for="search_text">Texto de Búsqueda:</label> -->
-        <input class="searchInput" type="text" name="search_text" id="search_text" placeholder="Texto de Búsqueda" @if (isset($inputText)) value="{{ $inputText }}" @endif>
-        <button onclick="showLoading()" class="searchButton" type="submit">Búsqueda</button>
-    </form>
-    @if ($filteredData)
-        <a href="{{ route('readFile', $file->id) }}"><button class="cleanButton">Limpiar filtro</button></a>
-    @endif
-</div>
+
+<!-- --------------------Edit buttons--------------------- -->
 <button style="display: none;" class="confirmChangesButton"><img src="{{ asset('../resources/images/cheque.png') }}"></button>
 <a style="display: none;" class="deleteButton" href="{{ route('readFile', $file->id) }}"><img src="{{ asset('../resources/images/borrar.png') }}"></a>
+<!-- ----------------------------------------------------- -->
+
+<!-- -------------------------gif------------------------- -->
 <div id="loadingGif" style="display: none;">
     <img src="{{ asset('../resources/images/loading.gif') }}">
 </div>
+<!-- ----------------------------------------------------- -->
+
 @if ($filteredData)
     <table class="fileTable">
         <tbody>
@@ -129,23 +149,6 @@
             $('.confirmChangesButton').show();
             $('.deleteButton').show();
         });
-
-        // send data when button clicked
-        /* $('.fileTable tbody').on('click', '.confirmButton', function() {
-            var $cell    = $(this).closest('td');
-            console.log($cell);
-            var rowIndex = $cell.closest('tr').index();
-            var colIndex = $cell.index();
-            var newValue = $cell.find('.editCell').val();
-            
-            // send data
-            updateCellValue(rowIndex, colIndex, newValue);
-        }); */
-        /* var $cell    = $(this).closest('td');
-        var newValue = $cell.find('.editCell').val();
-        var rowIndex = $(this).closest('tr').index();
-        var colIndex = $(this).closest('td').index(); */
-        
 
         // update cell value on server
         function updateCellValue(rowIndex, colIndex, newValue) {
