@@ -1,7 +1,7 @@
 @extends('templates.header')
 
 @section('body')
-<link rel="stylesheet" href="{{ asset('../resources/css/mainpage.css') }}">    
+<link rel="stylesheet" href="{{ asset('../resources/css/mainpage.css') }}">
 @error ('extensionError') <p style="color: red;">{{ $message }}</p> @enderror
 
 @if (auth()->user()->name === 'admin')
@@ -45,25 +45,23 @@
     <table class="generalTable">
         <thead>
             <tr>
+                <th class="firstItem"></th>
                 <th class="firstItem">Nombre</th>
                 <th class="firstItem">Fecha de subida</th>
                 <th class="firstItem">Tamaño (KB)</th>
-                @if (auth()->user()->name === 'admin')
-                    <th class="firstItem">Usuario</th>
-                @endif
+                <th class="firstItem">Usuario</th>
                 <th class="firstItem"></th>
             </tr>
         </thead>
         <tbody>
             @foreach ($files as $file)
                 <tr>
+                    <td class="item"><a class="shareLink" href="{{ route('showShareFile', ['id' => $file->id]) }}"><img class="trashIcon" src="{{ asset('../resources/images/share.png') }}"></a></td>
                     <td class="item"><a onclick="showLoading()" class="fileLink" href="{{ route('readFile', ['id' => $file->id]) }}">{{ $file->name }}</a></td>
                     <td class="item"><a onclick="showLoading()" class="fileLink" href="{{ route('readFile', ['id' => $file->id]) }}">{{ $file->created_at }}</a></td>
                     <td class="item"><a onclick="showLoading()" class="fileLink" href="{{ route('readFile', ['id' => $file->id]) }}">{{ round($file->size / 1000, 2) }} KB</a></td>
-                    @if (auth()->user()->name === 'admin')
-                        <td class="item"><a onclick="showLoading()" class="fileLink" href="{{ route('readFile', ['id' => $file->id]) }}">{{ $file->user->name }}</a></td>
-                    @endif
-                    <td class="item"><a class="deleteLink" href="{{ route('deleteFile', ['id' => $file->id]) }}"><img class="trashIcon" src="{{ asset('../resources/images/papelera.png') }}"></a></td>
+                    <td class="item"><a onclick="showLoading()" class="fileLink" href="{{ route('readFile', ['id' => $file->id]) }}">{{ $file->user->name }}</a></td>
+                    <td class="item"><a class="deleteLink" id="deleteFile_{{ $file->id }}" href="{{ route('deleteFile', ['id' => $file->id]) }}"><img class="trashIcon" src="{{ asset('../resources/images/papelera.png') }}"></a></td>
                 </tr>
             @endforeach
         </tbody>
@@ -80,5 +78,18 @@
     function showLoading() {
         document.getElementById('loadingGif').style.display = 'block';
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var deleteButtons = document.querySelectorAll('.deleteLink');
+        deleteButtons.forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                // Muestra un mensaje de confirmación antes de eliminar el archivo
+                var confirmDelete = confirm('¿Estás seguro de que deseas eliminar este archivo? Se eliminará también a las personas que has compartido.');
+                if (!confirmDelete) {
+                    event.preventDefault(); // Cancela la acción de eliminación si el usuario cancela
+                }
+            });
+        });
+    });
 </script>
 @endsection

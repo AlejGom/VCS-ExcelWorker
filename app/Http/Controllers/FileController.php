@@ -10,6 +10,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
+use App\Models\SharedFile;
 
 class FileController extends Controller
 {   
@@ -30,6 +31,66 @@ class FileController extends Controller
             'filtered' => $filtered,
             'users'    => $users,
         ]);
+    }
+    // Mostrar formulario para compartir un archivo
+    public function showShareFile($id) {
+        $file  = File::find($id);
+        $users = User::all();
+
+        return view('shareFile', [
+            'file'  => $file,
+            'users' => $users
+        ]);
+    }
+
+    // Mostrar archivos compartidos
+    public function mySharedFiles() {
+        $sharedFiles   = $this->loadSharedFiles();
+        $mySharedFiles = $this->loadMySharedFiles();
+        $filtered      = false;
+        $users         = User::all();
+
+
+        $files   = collect();
+        $myFiles = collect();
+
+        foreach($sharedFiles as $sharedFile) {
+            $file = File::find($sharedFile->id_file);
+
+            if ($file) {
+                $files->push([
+                    'idShared' => $sharedFile->id,
+                    'id'       => $file->id,
+                    'name'     => $file->name,
+                    'created'  => $file->created_at,
+                    'size'     => $file->size,
+                    'user'     => $file->user->name,
+                ]);
+            }
+        }
+
+        foreach($mySharedFiles as $mySharedFile) {
+            $file = File::find($mySharedFile->id_file);
+            $user = User::find($mySharedFile->shared);
+
+            if ($file) {
+                $myFiles->push([
+                    'idShared'    => $mySharedFile->id,
+                    'id'          => $file->id,
+                    'name'        => $file->name,
+                    'created'     => $file->created_at,
+                    'size'        => $file->size,
+                    'user'        => $file->user->name,
+                    'destinatary' => $user->name
+                ]);
+            }
+        }
+        return view('mySharedFiles', [
+                'files'    => $files,
+                'myFiles'  => $myFiles,
+                'filtered' => $filtered,
+                'users'    => $users,
+            ]);
     }
 
     // *************************************************************
@@ -71,6 +132,33 @@ class FileController extends Controller
         /* return back()->with('success','Archivo subido con exito'); */
         return redirect('/mainPage')->with('success','Archivo subido con exito');
     }
+
+    // ---------------------------------------------------------------------
+    // --------------Funcion para compartir archivos------------------------
+    // ---------------------------------------------------------------------
+
+    public function shareFile(Request $request) {
+        $this->validate($request, [
+            'fileId' => 'required',
+            'user'   => 'required',
+        ]);
+
+        $userId       = auth()->id();
+        $sharedUserId = $request->input('user');
+        $fileId       = $request->input('fileId');
+
+        $sharedFile = new SharedFile();
+
+        $sharedFile->shared  = $sharedUserId;
+        $sharedFile->id_user = $userId;
+        $sharedFile->id_file = $fileId;
+
+        $sharedFile->save();
+        return redirect('mainPage')->with('success','success');
+
+
+    }
+
     // ------------------------------------------------------------
     // ----------------Funcion para leer un archivo----------------
     // ------------------------------------------------------------
@@ -191,15 +279,60 @@ class FileController extends Controller
         return $files;
     }
 
+    // --------------------------------------------------------------------
+    // ------------Funcion para mostrar archivos en compartidos------------
+    // --------------------------------------------------------------------
+    public function loadSharedFiles() {
+        if(auth()->user()->name === 'admin') {
+            $files = SharedFile::with('file.user')->orderBy('created_at', 'desc')->get();
+        } else {
+            $files = SharedFile::with('file.user')->where('shared', auth()->id())->orderBy('created_at', 'desc')->get();    
+        }
+
+        return $files;
+    }
+
+    // -------------------------------------------------------------------------
+    // ----Funcion para mostrar archivos en compartidos por el mismo usuario----
+    // -------------------------------------------------------------------------
+    public function loadMySharedFiles() {
+        if(auth()->user()->name === 'admin') {
+            $myFiles = SharedFile::with('file.user')->orderBy('created_at', 'desc')->get();
+        } else {
+            $myFiles = SharedFile::with('file.user')->where('id_user', auth()->id())->orderBy('created_at', 'desc')->get();    
+        }
+
+        return $myFiles;
+    }
+
     // -------------------------------------------------------------------
     // ----------------Funcion para borrar archivos-----------------------
     // -------------------------------------------------------------------
     public function deleteFile($fileId) {
+        $sharedFiles = SharedFile::where('id_file', $fileId)->get();
+
+        foreach ($sharedFiles as $sharedFile) {
+            $sharedFile->delete();
+        }
+
         $file = File::find($fileId);
-        Storage::delete($file->file_path);
-        $file->delete();
+
+        if ($file) {
+            Storage::delete($file->file_path);
+            $file->delete();
+        }
 
         return redirect('/mainPage');
+    }
+
+    // -------------------------------------------------------------------
+    // ----------Funcion para borrar archivos compartidos-----------------
+    // -------------------------------------------------------------------
+    public function deleteSharedFile($fileId) {
+        $file = SharedFile::find($fileId);
+        $file->delete();
+
+        return redirect('/mySharedFiles');
     }
 
     // -------------------------------------------------------------------
@@ -232,9 +365,9 @@ class FileController extends Controller
 
         switch ($extension) {
             case 'xlsx': $extensionCode = 'Xlsx'; break;
-            case 'xls':  $extensionCode = 'Xls'; break;
-            case 'ods':  $extensionCode = 'Ods'; break;
-            case 'txt':  $extensionCode = 'Csv'; break; // PATHINFO_EXTENSION detected by txt from csv
+            case 'xls':  $extensionCode = 'Xls';  break;
+            case 'ods':  $extensionCode = 'Ods';  break;
+            case 'txt':  $extensionCode = 'Csv';  break; // PATHINFO_EXTENSION detected by txt from csv
             default: return redirect('/mainPage')->with('extensionError','Extension no soportada');
         }
         $spreadsheet = IOFactory::load($filePath);
@@ -250,6 +383,7 @@ class FileController extends Controller
 
         return response()->json(['success' => true]);
     }
+
     // *************************************************************
     // Other functions
 
@@ -294,9 +428,9 @@ class FileController extends Controller
         
         switch ($extension) {
             case 'xlsx': $extensionCode = 'Xlsx'; break;
-            case 'xls':  $extensionCode = 'Xls'; break;
-            case 'ods':  $extensionCode = 'Ods'; break;
-            case 'txt':  $extensionCode = 'Csv'; break; // PATHINFO_EXTENSION detected by txt from csv
+            case 'xls':  $extensionCode = 'Xls';  break;
+            case 'ods':  $extensionCode = 'Ods';  break;
+            case 'txt':  $extensionCode = 'Csv';  break; // PATHINFO_EXTENSION detected by txt from csv
             default: return redirect('/mainPage')->with('extensionError','Extension no soportada');
         }
 
@@ -321,7 +455,7 @@ class FileController extends Controller
     }   
 
     // -----------------------------------------------------------------
-    // ----------------Funcion para parsear fechas----------------------
+    // --------------Funcion para transformar fechas--------------------
     // -----------------------------------------------------------------
     private function parseDate($value) {
         $formats = ['d/m/Y', 'm/d/Y', 'Y-m-d', 'Y/m/d', 'd-m-Y', 'd/m/Y H:i:s'];

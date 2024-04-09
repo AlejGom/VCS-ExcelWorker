@@ -2,6 +2,16 @@
     width: auto;
     height: 100%;
     padding: 20px;
+    text-align: center;
+}
+.tablesContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 20px;
+}
+.tableTitle{
+    font-size: 30px;
 }
 .generalTable{
     border: 1px solid #1f396a;
@@ -13,7 +23,7 @@
     color: blue;
     text-decoration: underline;
 }
-.deleteLink, .editLink{
+.deleteLink, .editLink, .shareLink{
     color: red;
     text-decoration: underline;
 }

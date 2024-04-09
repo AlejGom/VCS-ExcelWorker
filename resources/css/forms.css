@@ -40,6 +40,17 @@ input:hover{
 .submitButton:hover{
     background-color: #005ec2;
 }
+.deleteButton{
+    margin-top: 10px;
+    margin-left: 340px;
+    border-radius: 5px;
+    background-color: red;
+    color: #ffffff;
+    padding: 15px;
+}
+.deleteButton:hover{
+    background-color: #b30000;
+}
 .formLinks{
     margin-top: 30px;
     color: #ffffff;
@@ -67,4 +78,14 @@ input:hover{
 }
 .fileNameInput{
     width: 500px;
+}
+.userSelect{
+    padding-left: 5px;
+    font-size: 20px;
+    width: 250px;
+    height: 35px;
+    border-radius: 5px;
+}
+.userSelect:hover{
+    background-color: #ffffffa9;
 }

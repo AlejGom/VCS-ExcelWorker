@@ -28,6 +28,11 @@ Route::post('/login', [UsersController::class, 'login'])->name('login');
 Route::get('/signup', [UsersController::class,'showSignupForm'])->name('showSignupForm');
 Route::post('/signup', [UsersController::class, 'signup'])->name('signup');
 
+Route::get('/user', [UsersController::class,'showUserConf'])->name('user')->middleware('auth');
+Route::post('/user', [UsersController::class, 'saveUserConfig'])->name('user')->middleware('auth');
+
+Route::get('/deleteUser/{id}', [UsersController::class,'deleteUser'])->name('deleteUser')->middleware('auth');
+
 Route::get('/logout', [UsersController::class,'logout'])->name('logout');
 
 // -------------------------------------------------------------------------------
@@ -38,6 +43,13 @@ Route::post('/uploadFile', [FileController::class, 'uploadFile'])->name('uploadF
 Route::get('/files/{id}', [FileController::class,'readFile'])->name('readFile')->middleware('auth');
 
 Route::get('/deleteFile/{id}', [FileController::class,'deleteFile'])->name('deleteFile')->middleware('auth');
+
+Route::get('/deleteSharedFile/{id}', [FileController::class,'deleteSharedFile'])->name('deleteSharedFile')->middleware('auth');
+
+Route::get('/showShareFile/{id}', [FileController::class,'showShareFile'])->name('showShareFile')->middleware('auth');
+Route::post('/shareFile', [FileController::class,'shareFile'])->name('shareFile')->middleware('auth');
+
+Route::get('/mySharedFiles', [FileController::class,'mySharedFiles'])->name('mySharedFiles')->middleware('auth');
 
 Route::post('/editFileName/{id}', [FileController::class, 'editFileName'])->name('editFileName');
 

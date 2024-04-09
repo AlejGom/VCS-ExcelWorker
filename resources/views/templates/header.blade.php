@@ -33,9 +33,10 @@
         <div class="menuLinks">
             <a href="{{ route('uploadFile') }}">Subir archivo</a>
             <a href="{{ route('mainPage') }}">Pagina principal</a>
+            <a href="{{ route('mySharedFiles') }}">Archivos compartidos</a>
         </div>
         <div class="userMenu">
-            <p>{{ auth()->user()->name }}</p>
+            <a class="user" href="{{ route('user') }}">{{ auth()->user()->name }}</a>
             <a class="logout" href="{{ route('logout') }}">Cerrar sesión</a>     
         </div>
     </div>

@@ -81,7 +81,7 @@ body {
     color: #fff;
     text-decoration: none;
 }
-.links a:hover, .menuLinks a:hover, .logout:hover {
+.links a:hover, .menuLinks a:hover, .logout:hover, .user:hover {
     text-decoration: underline;
 }
 .imageMenu{
