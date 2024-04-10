@@ -1,9 +1,11 @@
+/* Contenedor de soporte */
 .supportContainer{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
+/* Contenedores de login, registro y subida de archivos */
 .loginContainer, .signupContainer, .uploadContainer{
     display: flex;
     flex-direction: column;
@@ -14,14 +16,23 @@
     border-radius: 15px;
     background-color: #1f396a;
 }
+/* Contenedor de subida de archivos */
 .uploadContainer{
     width: 600px;
 }
-.imageInput{
+/* Titulos de formularios */
+.tittle{
+    font-size: 30px;
+    margin-bottom: 30px;
+    color: #ffffff;
+}
+/* Input para subir arcvhivos */
+.fileInput{
     width: 500px;
     height: 50px;
     background-color: #ffffff;
 }
+/* Inputs de formularios */
 input{
     border-radius: 5px;
     padding: 2px;
@@ -30,6 +41,7 @@ input{
 input:hover{
     background-color: #ffffffa9;
 }
+/* Botones de formularios */
 .submitButton{
     margin-top: 10px;
     border-radius: 5px;
@@ -40,6 +52,7 @@ input:hover{
 .submitButton:hover{
     background-color: #005ec2;
 }
+/* Boton de borrar un usuario */
 .deleteButton{
     margin-top: 10px;
     margin-left: 340px;
@@ -51,6 +64,7 @@ input:hover{
 .deleteButton:hover{
     background-color: #b30000;
 }
+/* Links para registro y login */
 .formLinks{
     margin-top: 30px;
     color: #ffffff;
@@ -59,11 +73,7 @@ input:hover{
 .formLinks:hover{
     color: #ffffffa9;
 }
-.tittle{
-    font-size: 30px;
-    margin-bottom: 30px;
-    color: #ffffff;
-}
+/* Imagen de instrucciones de subida */
 .imageTemplate{
     display: flex;
     flex-direction: column;
@@ -76,9 +86,11 @@ input:hover{
     font-size: 20px;
     margin-bottom: 15px;
 }
+/* Inputs de nombre subida de archivos */
 .fileNameInput{
     width: 500px;
 }
+/* Select para compartir a usuarios */
 .userSelect{
     padding-left: 5px;
     font-size: 20px;

@@ -14,7 +14,7 @@
 <!-- Container to manage submenu -->
 <div class="manageButtonsContainer">
     <!-- Convert dates to specific date -->
-    <a class="dateButton" href="{{ route('readAndConvertDates', $file->id) }}"><button>Cambiar fechas</button></a>
+    <a class="dateButton" href="{{ route('readAndConvertDates', $file->id) }}"><button>Cambiar fechas a dd/mm/yyyy</button></a>
     <div class="spaceBetween"></div>
     <!-- Edit file name -->
     <form class="editFileNameForm" action="{{ route('editFileName', $file->id) }}" method="POST">

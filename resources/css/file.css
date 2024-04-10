@@ -1,3 +1,68 @@
+/* Contenedor de los botones de administrar */
+.manageButtonsContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: #1f396a;
+    width: 100%;
+}
+/* Botones de filtros */
+.dateButton, .editFileNameButton{
+    text-align: center;
+    width: 150px;
+    padding: 10px;
+    margin: 20px;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #ffffff;
+}
+/* Contenedor para el enlace de descarga */
+.downloadContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    font-size: 20px;
+}
+/* Link de nombre de archivo */
+.fileName{
+    color: blue;
+    text-decoration: underline;
+}
+/* Contenedor del boton de volver */
+.buttonContainer{
+    width: 100%;
+    padding-left: 10%;
+    display: flex;
+    justify-content: left;
+}
+/* Boton de volver */
+.backButton{
+    width: 100px;
+    margin-top: 10px;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 10px;
+}
+.backButton:hover{
+    background-color: #005ec2;
+}
+/* Tabla para el contenido del archivo */
+.fileTable{
+    padding-bottom: 150px;
+    margin: 5% auto;
+}
+/* Colores de la tabla intercalados */
+.fileTable tbody tr:nth-child(even) {
+    background-color: #ffffff;
+}
+.fileTable tbody tr:nth-child(odd) {
+    background-color: #bdbdbd;
+}
+/* Contenido de las tablas del archivo excel */
 .item, .firstItem, .secondItem{
     border: 1px solid black;
     padding: 10px;
@@ -11,32 +76,8 @@
 .secondItem{
     background-color: #bdbdbd;
 }
-.fileName{
-    color: blue;
-    text-decoration: underline;
-}
-.fileTable{
-    padding-bottom: 150px;
-    margin: 5% auto;
-}
-.backButton{
-    width: 100px;
-    margin-top: 10px;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: #ffffff;
-    padding: 10px;
-}
-.backButton:hover{
-    background-color: #005ec2;
-}
-.buttonContainer{
-    width: 100%;
-    padding-left: 10%;
-    display: flex;
-    justify-content: left;
-}
-.moreButton{
+/* Botón de ver mas (sin uso) */
+/* .moreButton{
     width: 100px;
     margin: 30px;
     border-radius: 5px;
@@ -46,18 +87,8 @@
 }
 .moreButton:hover{
     background-color: #005ec2;
-}
-.cleanButton{
-    width: 150px;
-    margin: 20px;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: #ffffff;
-    padding: 5px;
-}
-.cleanButton:hover{
-    background-color: #005ec2;
-}
+} */
+/* Contenedor del filtro */
 .searchContainer{
     width: 450px;
     padding: 10px;
@@ -70,6 +101,17 @@
     justify-content: left;
     background-color: #1f396a;
 }
+/* Input para el filtro */
+.searchInput{
+    width: 300px;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #ffffff;
+}
+.searchInput:hover{
+    background-color: #ffffffa9;
+}
+/* Boton de buscar en el filtro */
 .searchButton{
     color: #ffffff;
     background-color: #007bff;
@@ -80,35 +122,26 @@
 .searchButton:hover{
     background-color: #005ec2;
 }
-.searchInput{
-    width: 300px;
+/* Boton para limpiar el filtro */
+.cleanButton{
+    width: 150px;
+    margin: 20px;
     border-radius: 5px;
+    background-color: #007bff;
+    color: #ffffff;
     padding: 5px;
-    background-color: #ffffff;
 }
-.searchInput:hover{
-    background-color: #ffffffa9;
+.cleanButton:hover{
+    background-color: #005ec2;
 }
-.fileTable tbody tr:nth-child(even) {
-    background-color: #ffffff;
-}
-.fileTable tbody tr:nth-child(odd) {
-    background-color: #bdbdbd;
-}
-.downloadContainer{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-    font-size: 20px;
-}
+/* Boton para confirmar los cambios */
 .confirmChangesButton{
     width: 50px;
     position: fixed;
     bottom: 20px;
     right: 20px;
 }
+/* Boton para borrar los cambios */
 .deleteButton{
     width: 50px;
     position: fixed;
@@ -119,6 +152,7 @@
     width: 100%;
     height: 200px;
 }
+/* Botones de paginacion (flechas) */
 .pagination{
     display: flex;
     flex-wrap: wrap;
@@ -126,7 +160,6 @@
     align-items: center;
     font-size: 20px;
     margin-bottom: 20px;
-    
 }
 .pagination a{
     color: blue;
@@ -139,6 +172,7 @@
 .pagination a.active{
     font-weight: bold;
 }
+/* Contenedor de los botones de paginacion (select )*/
 .selectPages{
     padding-bottom: 20px;
 }
@@ -146,24 +180,6 @@
     margin-left: 10px;
     cursor: pointer;
     width: 50px;
-}
-.manageButtonsContainer{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    background-color: #1f396a;
-    width: 100%;
-
-}
-.dateButton, .editFileNameButton{
-    text-align: center;
-    width: 150px;
-    padding: 10px;
-    margin: 20px;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: #ffffff;
 }
 /* .editFileNameForm, .filterDataForm{
     margin-left: 50px;

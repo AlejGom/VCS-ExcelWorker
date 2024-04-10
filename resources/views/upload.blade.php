@@ -7,7 +7,7 @@
     <form method="POST" action="{{ url('/uploadFile') }}" enctype="multipart/form-data">
         @csrf
         <label for="file" class="fileLabel">Selecciona un archivo:</label>
-        <input class="imageInput" type="file" name="file" id="fileInput"><br><br>
+        <input class="fileInput" type="file" name="file" id="fileInput"><br><br>
         <input class="fileNameInput" type="text" name="fileName" id="fileName" placeholder="Nombre del archivo"><br><br>
         <button class="submitButton" type="submit" onclick="showLoading()">Enviar archivo</button><br>
     </form>

@@ -1,44 +1,54 @@
+/* Contenedor del menu, vista de archivos */
 .tableContainer{
     width: auto;
     height: 100%;
     padding: 20px;
     text-align: center;
 }
+/* Utilizado en mySharedFiles.blade.php como div de contenedores */
 .tablesContainer{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     margin: 20px;
 }
+/* Texto de admin */
+.adminText{
+    margin-top: 15px;
+    font-size: 30px;
+}
+/* Titulo de la tabla en mySharedFiles.blade.php */
 .tableTitle{
     font-size: 30px;
 }
+/* Tabla para mostrar los archivos */
 .generalTable{
     border: 1px solid #1f396a;
     width: 100%;
     text-align: center;
     margin: 40px;
 }
+/* Links de los archivos */
 .fileLink{
     color: blue;
     text-decoration: underline;
 }
-.deleteLink, .editLink, .shareLink{
+/* Ahora son imagenes */
+/* .deleteLink, .editLink, .shareLink{
     color: red;
     text-decoration: underline;
-}
+} */
+/* Archivos del contenido de la tabla */
 .item{
     border-top: 1px solid black;
     padding: 10px;
 }
+/* Titulos de la tabla */
 .firstItem{
     background-color: #1f396a;
     color: #ffffff;
 }
-.adminText{
-    margin-top: 15px;
-    font-size: 30px;
-}
+/* Contenedor del filtro */
 .searchContainer{
     width: 620px;
     height: 330px;
@@ -52,6 +62,7 @@
     justify-content: left;
     background-color: #1f396a;
 }
+/* Input de busqueda por texto */
 .searchInput{
     border-radius: 5px;
     padding: 5px;
@@ -60,12 +71,14 @@
 .searchInput:hover{
     background-color: #ffffffa9;
 }
+/* Contenedor de los botones de busqueda y limpiar */
 .buttonContainer{
     display: flex;
     justify-content: right;
     padding-right: 50px;
     margin-bottom: 10px;
 }
+/* Boton de busqueda */
 .searchButton {
     background-color: #007bff;
     color: #ffffff;
@@ -77,6 +90,7 @@
 .searchButton:hover{
     background-color: #005ec2;
 }
+/* Boton de limpiar */
 .cleanButton {
     margin: 5px;
     border-radius: 5px;
@@ -88,6 +102,7 @@
 .cleanButton:hover{
     background-color: #005ec2;
 }
+/* Inputs de fechas */
 .dateInput, .searchInput, .dateInputText{
     margin-top: 20px;
 }
@@ -95,24 +110,21 @@
     width: 200px;
     margin-right: 10px;
 }
+.dateInputText{
+    color: #ffffff;
+}
 .dateInput{
     width: 240px;
     margin-left: 10px;
-}
-.dateInput2{
-    margin-left: 25px;
-}
-.dateInputText{
-    color: #ffffff;
 }
 .dateInput:hover{
     background-color: #ffffffa9;
     cursor: pointer;
 }
-.trashIcon, .editIcon{
-    width: 30px;
-    height: 30px;
+.dateInput2{
+    margin-left: 25px;
 }
+/* Select de busqueda por usuario */
 .searchUserInput{
     background-color: #ffffff;
     margin-top: 20px;
@@ -124,4 +136,9 @@
 }
 .searchUserInput:hover{
     background-color: #ffffffa9;
+}
+/* Iconos de trash y edit */
+.trashIcon, .editIcon{
+    width: 30px;
+    height: 30px;
 }

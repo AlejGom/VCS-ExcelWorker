@@ -1,4 +1,5 @@
-.containerPruebaCentrado{
+/* contenedor que marca el centro de la página (pruebas) */
+/* .containerPruebaCentrado{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -7,7 +8,8 @@
     width: 50%;
     height: 50px;
     border: 1px solid black;
-}
+} */
+/* Aplicable a todas las paginas */
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f5f5f5;
@@ -18,7 +20,13 @@ body {
     align-items: center;
     height: 100vh;
 }
-
+/* Contenedor de los menus */
+.menuContainer{
+    width: 100%;
+    height: 100px;
+    background-color: #1f396a;
+}
+/* .menu no se utiliza, solo se utiliza .menu2 */
 .menu, .menu2 {
     margin-top: 10px;
     display: flex;
@@ -33,16 +41,11 @@ body {
     padding-left: 100px;
     margin-top: 60px;
 }
+.menu h1 {
+    margin: 20px;
+}
 .menu2{
     padding-left: 80px;
-}
-.menuContainer{
-    width: 100%;
-    height: 100px;
-    background-color: #1f396a;
-}
-.logout{
-    font-size: 20px;
 }
 .userMenu{
     display: flex;
@@ -56,9 +59,11 @@ body {
     text-align: right;
     font-size: 30px;
 }
-.menu h1 {
-    margin: 20px;
+.logout{
+    font-size: 20px;
 }
+/* .links contenedor de los links Iniciar sesion y registrarse */
+/* .menuLinks contenedor de los links de las paginas */
 .links, .menuLinks {
     display: flex;
     flex-direction: row;
@@ -69,9 +74,6 @@ body {
     margin-top: 10px;
     margin-bottom: 20px;
 }
-/* .menuLinks{
-    
-} */
 .links {
     margin-right: 190px;
 }
@@ -84,15 +86,14 @@ body {
 .links a:hover, .menuLinks a:hover, .logout:hover, .user:hover {
     text-decoration: underline;
 }
+/* Contenedor de la imagen de vcs una vez iniciada la sesion */
 .imageMenu{
     background-color: #1f396a;
     color: #fff;
     width: 100%;
     text-align: left;
 }
-/* .homeImageMenu{
-
-} */
+/* Imagen */
 .vcsLogo{
     height: 80px;
     width: 80px;
