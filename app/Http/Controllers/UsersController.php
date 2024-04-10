@@ -49,7 +49,7 @@ class UsersController extends Controller
         $name     = $request->name;
         $password = $request->password;
         
-        $bdUser = User::where('name', $name)->first();
+        $bdUser   = User::where('name', $name)->first();
 
         if($bdUser && Hash::check($password, $bdUser->password)) {
 
@@ -102,10 +102,10 @@ class UsersController extends Controller
     // Funcion para eliminar la cuenta del usuario
     public function deleteUser($id) {
         
-        $user = User::find($id);
+        $user  = User::find($id);
         $files = File::where('user_id', $id)->get();
 
-        $filesShared = SharedFile::where('id_user', $id)->get();
+        $filesShared  = SharedFile::where('id_user', $id)->get();
 
         $sharedToUser = SharedFile::where('shared', $user->id)->get();
 

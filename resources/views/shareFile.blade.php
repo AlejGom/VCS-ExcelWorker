@@ -11,7 +11,7 @@
         <input type="hidden" name="fileId" value="{{ $file->id }}">
         <select class="userSelect" name="user" id="user">
             <option value="" disabled selected>Selecciona un usuario</option>
-            <option value="allUsers">Todos</option>
+            <!-- <option value="allUsers">Todos</option> -->
             @foreach ($users as $user)
                 <option value="{{ $user->id }}">{{ $user->name }}</option>
             @endforeach

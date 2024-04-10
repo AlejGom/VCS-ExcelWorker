@@ -181,18 +181,19 @@ class FileController extends Controller
         // read file extension and save in $extension
         $extension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
 
-        /* dd($extension); */
-
         // switch returned data into data to IOFactory
         switch ($extension) {
             case 'xlsx': $extensionCode = 'Xlsx'; break;
             case 'xls':  $extensionCode = 'Xls'; break;
             case 'ods':  $extensionCode = 'Ods'; break;
             case 'txt':  $extensionCode = 'Csv'; break; // PATHINFO_EXTENSION detected by txt from csv
+            case 'jpeg': return view('image', ['image' => $file->file_path]);
+            case 'png':  return view('image', ['image' => $file->file_path]);
+            case 'jpg':  return view('image', ['image' => $file->file_path]);
+            case 'gif':  return view('image', ['image' => $file->file_path]);
+            case 'webp': return view('image', ['image' => $file->file_path]);
             default: return redirect('/mainPage')->with('extensionError','Extension no soportada');
         }
-        /* dd($extension); */
-        /* dd($extensionCode); */
 
         // read file with extension
         $reader      = IOFactory::createReader($extensionCode);
@@ -252,7 +253,7 @@ class FileController extends Controller
 
         $filteredData = null;
         $users = User::all();
-        
+
         return view('readFile', [
             'data'         => $pagedData,
             'maxRows'      => $maxRows,
@@ -351,13 +352,13 @@ class FileController extends Controller
     // -------------------------------------------------------------------
     public function updateCell(Request $request) {
 
-        $fileId   = $request->input('fileId');
-        $rowIndex = $request->input('rowIndex');
-        $colIndex = $request->input('colIndex');
-        $newValue = $request->input('newValue');
+        $fileId    = $request->input('fileId');
+        $rowIndex  = $request->input('rowIndex');
+        $colIndex  = $request->input('colIndex');
+        $newValue  = $request->input('newValue');
         
-        $file     = File::find($fileId);
-        $filePath = storage_path('app/' . $file->file_path);
+        $file      = File::find($fileId);
+        $filePath  = storage_path('app/' . $file->file_path);
 
         $extension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
 
@@ -388,7 +389,7 @@ class FileController extends Controller
     // Other functions
 
     // ---------------------------------------------------------------------
-    // ----------------Funcion para aumentar filas--------------------------
+    // -----------Funcion para aumentar numero de filas---------------------
     // ---------------------------------------------------------------------
     // deprecated
     /* public function increaseRowsInView() {

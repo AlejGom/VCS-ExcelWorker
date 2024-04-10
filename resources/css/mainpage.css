@@ -33,11 +33,6 @@
     color: blue;
     text-decoration: underline;
 }
-/* Ahora son imagenes */
-/* .deleteLink, .editLink, .shareLink{
-    color: red;
-    text-decoration: underline;
-} */
 /* Archivos del contenido de la tabla */
 .item{
     border-top: 1px solid black;
@@ -74,7 +69,7 @@
 /* Contenedor de los botones de busqueda y limpiar */
 .buttonContainer{
     display: flex;
-    justify-content: right;
+    justify-content: flex-end;
     padding-right: 50px;
     margin-bottom: 10px;
 }
@@ -141,4 +136,27 @@
 .trashIcon, .editIcon{
     width: 30px;
     height: 30px;
+}
+
+/* Reglas de medios de comunicación para hacer el diseño responsive */
+@media only screen and (max-width: 768px) {
+    .searchContainer {
+        width: 100%;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .buttonContainer {
+        justify-content: center;
+        padding-right: 20px;
+    }
+    .searchInput {
+        width: 100%;
+    }
+    .dateInputText, .dateInput {
+        width: 100%;
+        margin: 10px 0;
+    }
+    .searchUserInput {
+        width: 100%;
+    }
 }

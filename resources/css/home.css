@@ -100,3 +100,33 @@ body {
     margin-bottom: 30px;
 }
 
+/* Reglas de medios de comunicación para hacer el diseño responsive */
+@media only screen and (max-width: 768px) {
+    .menu {
+        padding-left: 50px;
+    }
+    .menu2 {
+        padding-left: 30px;
+    }
+    .links {
+        margin-right: 100px;
+    }
+    .userMenu {
+        padding-right: 50px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .menu {
+        padding-left: 20px;
+    }
+    .menu2 {
+        padding-left: 10px;
+    }
+    .links {
+        margin-right: 50px;
+    }
+    .userMenu {
+        padding-right: 20px;
+    }
+}

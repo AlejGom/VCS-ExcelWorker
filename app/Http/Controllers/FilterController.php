@@ -47,12 +47,13 @@ class FilterController extends Controller
         $spreadsheet = $reader->load($filePath);
         $sheet       = $spreadsheet->getActiveSheet();
 
-        $data = [];
-        $rowCount = 0;
+        $data        = [];
+        $rowCount    = 0;
         $currentPage = Session::get('currentPage', 1);
 
-        $firstLane = [];
-        $firstRow  = $sheet->getRowIterator(2)->current();
+        $firstLane   = [];
+        $firstRow    = $sheet->getRowIterator(2)->current();
+        
         foreach ($firstRow->getCellIterator() as $cell) {
             $firstLane[] = $cell->getValue();
         }
