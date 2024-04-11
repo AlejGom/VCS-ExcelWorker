@@ -26,7 +26,7 @@
             @foreach ($myFiles as $myFile)
                 <tr>
                     <td class="item"><a class="shareLink" href="{{ route('downloadFile', ['id' => $myFile['id']]) }}"><img class="trashIcon" src="{{ asset('../resources/images/descargar.png') }}"></a></td>
-                    <td class="item"><a onclick="showLoading()" class="fileLink" href="{{ route('readFile', ['id' => $myFile['id']]) }}">{{ $myFile['name'] }}</a></td>
+                    <td class="item"><a onclick="showLoading()" class="fileLink" href="{{ route('readFile', ['id' => $myFile['id']]) }}">{{ strlen($myFile['name']) > 20 ? substr($myFile['name'], 0, 17) . '...' : $myFile['name'] }}</a></td>
                     <td class="item"><a onclick="showLoading()" class="fileLink" href="{{ route('readFile', ['id' => $myFile['id']]) }}">{{ $myFile['created'] }}</a></td>
                     <td class="item"><a onclick="showLoading()" class="fileLink" href="{{ route('readFile', ['id' => $myFile['id']]) }}">{{ round($myFile['size'] / 1000, 2) }} KB</a></td>
                     <td class="item"><a onclick="showLoading()" class="fileLink" href="{{ route('readFile', ['id' => $myFile['id']]) }}">{{ $myFile['destinatary'] }}</a></td>
@@ -55,7 +55,7 @@
             @foreach ($files as $file)
                 <tr>
                     <td class="item"><a class="deleteLink" href="{{ route('downloadFile', ['id' => $file['id']]) }}"><img class="trashIcon" src="{{ asset('../resources/images/descargar.png') }}"></a></td>
-                    <td class="item"><a onclick="showLoading()" class="fileLink" href="{{ route('readFile', ['id' => $file['id']]) }}">{{ $file['name'] }}</a></td>
+                    <td class="item"><a onclick="showLoading()" class="fileLink" href="{{ route('readFile', ['id' => $file['id']]) }}">{{ strlen($file['name']) > 20 ? substr($file['name'], 0, 17) . '...' : $file['name'] }}</a></td>
                     <td class="item"><a onclick="showLoading()" class="fileLink" href="{{ route('readFile', ['id' => $file['id']]) }}">{{ $file['created'] }}</a></td>
                     <td class="item"><a onclick="showLoading()" class="fileLink" href="{{ route('readFile', ['id' => $file['id']]) }}">{{ round($file['size'] / 1000, 2) }} KB</a></td>
                     <td class="item"><a onclick="showLoading()" class="fileLink" href="{{ route('readFile', ['id' => $file['id']]) }}">{{ $file['user'] }}</a></td>

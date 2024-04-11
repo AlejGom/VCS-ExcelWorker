@@ -4,6 +4,6 @@
 
 <link rel="stylesheet" href="{{ asset('../resources/css/file.css') }}">
 
-<img class="viewImage" src="../../storage/app/{{ $image }}" alt="">
+<img class="viewImage" src="../../storage/app/{{ $image }}">
 
 @endsection

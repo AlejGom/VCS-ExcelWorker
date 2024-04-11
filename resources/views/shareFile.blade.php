@@ -6,7 +6,7 @@
 <div class="uploadContainer">
     <form method="POST" action="{{ url('/shareFile') }}" enctype="multipart/form-data">
         @csrf
-        <p class="tittle">Nombre del archivo: {{ $file->name }}</p>
+        <p class="tittle">Nombre del archivo: {{ strlen($file['name']) > 30 ? substr($file['name'], 0, 27) . '...' : $file['name'] }}</p>
         <p class="tittle">Dueño del archivo: {{ $file->user->name }}</p>
         <input type="hidden" name="fileId" value="{{ $file->id }}">
         <select class="userSelect" name="user" id="user">

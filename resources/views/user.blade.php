@@ -22,7 +22,7 @@
 @endsection
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    /* document.addEventListener('DOMContentLoaded', function() {
         var deleteButtons = document.querySelectorAll('.deleteButton');
         deleteButtons.forEach(function(button) {
             button.addEventListener('click', function(event) {
@@ -30,6 +30,24 @@
                 var confirmDelete = confirm('¿Estás seguro de que deseas eliminar esta cuenta? Los archivos subidos y compartidos se perderán.');
                 if (!confirmDelete) {
                     event.preventDefault(); // Cancela la acción de eliminación si el usuario cancela
+                }
+            });
+        });
+    }); */
+    document.addEventListener('DOMContentLoaded', function() {
+        var deleteButtons = document.querySelectorAll('.deleteButton');
+        deleteButtons.forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                // Muestra un mensaje de confirmación antes de eliminar la cuenta
+                var confirmDelete = confirm('¿Estás seguro de que deseas eliminar esta cuenta? Los archivos subidos y compartidos se perderán.');
+                if (!confirmDelete) {
+                    event.preventDefault(); // Cancela la acción de eliminación si el usuario cancela
+                } else {
+                    // Si el usuario confirma la eliminación, muestra otro mensaje de confirmación
+                    var confirmSecondDelete = confirm('¿Estás completamente seguro? Esta acción no se puede deshacer.');
+                    if (!confirmSecondDelete) {
+                        event.preventDefault(); // Cancela la eliminación si el usuario cancela
+                    }
                 }
             });
         });

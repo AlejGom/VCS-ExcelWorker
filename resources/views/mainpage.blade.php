@@ -37,7 +37,7 @@
         </div>
     </form>
 </div>
-<div id="loadingGif" style="display: none;">
+<div class="loadingGifContainer" id="loadingGif" style="display: none;">
     <img src="{{ asset('../resources/images/loading.gif') }}">
 </div>
 <div class="tableContainer">
@@ -57,7 +57,7 @@
             @foreach ($files as $file)
                 <tr>
                     <td class="item"><a class="shareLink" href="{{ route('showShareFile', ['id' => $file->id]) }}"><img class="trashIcon" src="{{ asset('../resources/images/share.png') }}"></a></td>
-                    <td class="item"><a onclick="showLoading()" class="fileLink" href="{{ route('readFile', ['id' => $file->id]) }}">{{ $file->name }}</a></td>
+                    <td class="item"><a onclick="showLoading()" class="fileLink" href="{{ route('readFile', ['id' => $file->id]) }}">{{ strlen($file->name) > 20 ? substr($file->name, 0, 17) . '...' : $file->name }}</a></td>
                     <td class="item"><a onclick="showLoading()" class="fileLink" href="{{ route('readFile', ['id' => $file->id]) }}">{{ $file->created_at }}</a></td>
                     <td class="item"><a onclick="showLoading()" class="fileLink" href="{{ route('readFile', ['id' => $file->id]) }}">{{ round($file->size / 1000, 2) }} KB</a></td>
                     <td class="item"><a onclick="showLoading()" class="fileLink" href="{{ route('readFile', ['id' => $file->id]) }}">{{ $file->user->name }}</a></td>

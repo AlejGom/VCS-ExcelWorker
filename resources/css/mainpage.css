@@ -132,6 +132,10 @@
 .searchUserInput:hover{
     background-color: #ffffffa9;
 }
+/* Gif de carga */
+.loadingGifContainer{
+    margin-top: 60px;
+}
 /* Iconos de trash y edit */
 .trashIcon, .editIcon{
     width: 30px;
