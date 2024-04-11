@@ -37,7 +37,7 @@
         </div>
     </form>
 </div>
-<div class="loadingGifContainer" id="loadingGif" style="display: none;">
+<div class="loadingGif" id="loadingGif" style="display: none;">
     <img src="{{ asset('../resources/images/loading.gif') }}">
 </div>
 <div class="tableContainer">

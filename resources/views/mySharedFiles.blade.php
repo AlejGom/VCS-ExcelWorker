@@ -3,7 +3,7 @@
 @section('body')
 <link rel="stylesheet" href="{{ asset('../resources/css/mainpage.css') }}">
 
-<div id="loadingGif" style="display: none;">
+<div class="loadingGifContainer" id="loadingGif" style="display: none;">
     <img src="{{ asset('../resources/images/loading.gif') }}">
 </div>
 
