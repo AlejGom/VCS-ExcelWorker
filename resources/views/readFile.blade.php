@@ -14,7 +14,7 @@
 <!-- Container to manage submenu -->
 <div class="manageButtonsContainer">
     <!-- Convert dates to specific date -->
-    <a class="dateButton" href="{{ route('readAndConvertDates', $file->id) }}"><button>Cambiar fechas a dd/mm/yyyy</button></a>
+    <a class="dateButton" onclick="showLoading()" href="{{ route('readAndConvertDates', $file->id) }}"><button>Cambiar fechas a dd/mm/yyyy</button></a>
     <div class="spaceBetween"></div>
     <!-- Edit file name -->
     <form class="editFileNameForm" action="{{ route('editFileName', $file->id) }}" method="POST">
@@ -32,7 +32,7 @@
     </form>
     <!-- Clean filter -->
     @if ($filteredData)
-        <a href="{{ route('readFile', $file->id) }}"><button class="cleanButton">Limpiar filtro</button></a>
+        <a onclick="showLoading()" href="{{ route('readFile', $file->id) }}"><button class="cleanButton">Limpiar filtro</button></a>
     @endif
 </div>
 <div class="downloadContainer">

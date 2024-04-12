@@ -38,6 +38,13 @@
     display: flex;
     justify-content: left;
 }
+.buttonContainerOnImage{
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    padding-left: 10%;
+    margin-top: 30px;
+}
 /* Boton de volver */
 .backButton{
     width: 100px;

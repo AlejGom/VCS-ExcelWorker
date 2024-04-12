@@ -187,20 +187,18 @@ class FileController extends Controller
             case 'xls':  $extensionCode = 'Xls'; break;
             case 'ods':  $extensionCode = 'Ods'; break;
             case 'txt':  $extensionCode = 'Csv'; break; // PATHINFO_EXTENSION detected by txt from csv
-            case 'jpeg': return view('image', ['image' => $file->file_path]);
-            case 'png':  return view('image', ['image' => $file->file_path]);
-            case 'jpg':  return view('image', ['image' => $file->file_path]);
-            case 'gif':  return view('image', ['image' => $file->file_path]);
-            case 'webp': return view('image', ['image' => $file->file_path]);
+            case 'jpeg': return view('image', ['image' => $file]);
+            case 'png':  return view('image', ['image' => $file]);
+            case 'jpg':  return view('image', ['image' => $file]);
+            case 'gif':  return view('image', ['image' => $file]);
+            case 'webp': return view('image', ['image' => $file]);
             default: return redirect('/mainPage')->with('extensionError','Extension no soportada');
         }
 
         // read file with extension
         $reader      = IOFactory::createReader($extensionCode);
         // load file
-        
         $spreadsheed = $reader->load($filePath);
-        
         $sheet       = $spreadsheed->getActiveSheet();
 
         // declare variables
@@ -272,9 +270,9 @@ class FileController extends Controller
     // --------------------------------------------------------------------
     public function loadFiles() {
         if(auth()->user()->name === 'admin') {
-            $files = File::orderBy('created_at', 'desc')->get();
+            $files = File::orderBy('updated_at', 'desc')->get();
         } else {
-            $files = File::where('user_id', auth()->id())->orderBy('created_at', 'desc')->get();    
+            $files = File::where('user_id', auth()->id())->orderBy('updated_at', 'desc')->get();    
         }
 
         return $files;
@@ -285,9 +283,9 @@ class FileController extends Controller
     // --------------------------------------------------------------------
     public function loadSharedFiles() {
         if(auth()->user()->name === 'admin') {
-            $files = SharedFile::with('file.user')->orderBy('created_at', 'desc')->get();
+            $files = SharedFile::with('file.user')->orderBy('updated_at', 'desc')->get();
         } else {
-            $files = SharedFile::with('file.user')->where('shared', auth()->id())->orderBy('created_at', 'desc')->get();    
+            $files = SharedFile::with('file.user')->where('shared', auth()->id())->orderBy('updated_at', 'desc')->get();    
         }
 
         return $files;
@@ -298,9 +296,9 @@ class FileController extends Controller
     // -------------------------------------------------------------------------
     public function loadMySharedFiles() {
         if(auth()->user()->name === 'admin') {
-            $myFiles = SharedFile::with('file.user')->orderBy('created_at', 'desc')->get();
+            $myFiles = SharedFile::with('file.user')->orderBy('updated_at', 'desc')->get();
         } else {
-            $myFiles = SharedFile::with('file.user')->where('id_user', auth()->id())->orderBy('created_at', 'desc')->get();    
+            $myFiles = SharedFile::with('file.user')->where('id_user', auth()->id())->orderBy('updated_at', 'desc')->get();    
         }
 
         return $myFiles;

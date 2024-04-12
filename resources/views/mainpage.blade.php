@@ -27,7 +27,6 @@
                     @endforeach
                 </select>
             @endif
-
         </div>
         <div class="buttonContainer">
             <button  class="searchButton" type="submit">Búsqueda</button>
