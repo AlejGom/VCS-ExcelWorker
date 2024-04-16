@@ -6,8 +6,10 @@
 <div class="uploadContainer">
     <form method="POST" action="{{ url('/uploadFile') }}" enctype="multipart/form-data">
         @csrf
-        <label for="file" class="fileLabel">Selecciona un archivo:</label><br>
-        <input class="fileInput" type="file" name="file" id="fileInput"><br><br>
+        <label for="fileInput" class="fileLabel">Selecciona un archivo:<br>
+            <input class="fileInput" type="file" name="file" id="fileInput">
+            <i class="fas fa-file-upload"></i> Seleccionar archivo
+        </label><br><br>
         <input class="fileNameInput" type="text" name="fileName" id="fileName" placeholder="Nombre del archivo"><br><br>
         <button class="submitButton" type="submit" onclick="showLoading()">Enviar archivo</button><br>
     </form>

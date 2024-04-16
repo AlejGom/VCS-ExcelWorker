@@ -18,7 +18,10 @@
 }
 /* Contenedor de subida de archivos */
 .uploadContainer{
-    width: auto;
+    width: 100%;
+    max-width: 500px;
+    padding: 20px auto;
+    text-align: center;
     /* width: 100%;
     max-width: 600px; */
 }
@@ -29,11 +32,42 @@
     color: #ffffff;
 }
 /* Input para subir archivos */
-.fileInput{
-    width: 100%;
-    max-width: 500px;
+.fileLabel {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    width: 400px;
     height: 50px;
     background-color: #ffffff;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+    font-size: 18px;
+    line-height: 30px;
+    transition: background-color 0.3s;
+}
+
+.fileInput {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Estilos para el ícono de archivo */
+.fa-file-upload {
+    margin-right: 5px;
+}
+
+/* Estilos para el botón al pasar el mouse */
+.fileLabel:hover {
+    background-color: #ffffffa9;
+    border-color: #999;
 }
 /* Inputs de formularios */
 input{
@@ -47,7 +81,7 @@ input:hover{
     background-color: #ffffffa9;
 }
 /* Botones de formularios */
-.submitButton, .deleteButton{
+.userSubmit{
     margin-top: 10px;
     border-radius: 5px;
     color: #ffffff;
@@ -56,13 +90,22 @@ input:hover{
     max-width: 500px;
     text-align: center;
 }
-.submitButton{
+.submitButton, .deleteButton{
+    margin-top: 10px;
+    border-radius: 5px;
+    color: #ffffff;
+    padding: 10px;
+    width: 40%;
+    max-width: 500px;
+    text-align: center;
+}
+.submitButton, .userSubmit{
     background-color: #007bff;
 }
 .deleteButton{
-    background-color: #dc3545;
+    background-color: #dc3545
 }
-.submitButton:hover{
+.submitButton:hover, .userSubmit:hover{
     background-color: #005ec2;
 }
 .deleteButton:hover{

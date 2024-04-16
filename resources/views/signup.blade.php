@@ -27,7 +27,7 @@
             @error('password_confirmation') <p style="color: red;">{{ $message }}</p> @enderror
         </div>
 
-         <button type="submit" class="submitButton">Registrarse</button>
+         <button type="submit" class="userSubmit">Registrarse</button>
     </form>
     <a href="{{ route('login') }}" class="formLinks">¿Ya tienes cuenta? Iniciar sesión</a>
 </div>

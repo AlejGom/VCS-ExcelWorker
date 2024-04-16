@@ -18,7 +18,7 @@
         </div>
         @error('error') <p style="color: red;">{{ $message }}</p> @enderror
 
-        <button type="submit" class="submitButton">Iniciar sesión</button>
+        <button type="submit" class="userSubmit">Iniciar sesión</button>
     </form>
     <a href="{{ route('signup') }}" class="formLinks">¿No tienes cuenta? Registrate</a>
 </div>

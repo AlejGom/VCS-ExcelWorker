@@ -80,6 +80,7 @@
     border-radius: 5px;
     margin: 5px;
     padding: 5px;
+    width: 100px;
     height: 40px;
 }
 .searchButton:hover{
