@@ -14,7 +14,7 @@
 <!-- Container to manage submenu -->
 <div class="manageButtonsContainer">
     <!-- Convert dates to specific date -->
-    <a class="dateButton" onclick="openPopupForm()"><button>Reemplazar columna</button></a>
+    <a class="dateButton" onclick="toggleReplaceColumnForm()"><button>Reemplazar columna</button></a>
     
     <div class="spaceBetween"></div>
     <a class="dateButton" onclick="showLoading()" href="{{ route('readAndConvertDates', $file->id) }}"><button>Cambiar fechas a dd/mm/yyyy</button></a>
@@ -46,19 +46,22 @@
     <a href="{{ route('goBack') }}"><button class="backButton">Volver</button></a>
 </div>
 
-<form id="replaceColumnForm" action="{{ route('replaceColumn', ['id' => $file->id]) }}" method="POST">
-    @csrf
-    <label for="selectedColumn">Selecciona la columna a reemplazar:</label>
-    <select name="selectedColumn" id="selectedColumn">
-        <option value="" disabled selected>Selecciona una columna</option>
-        @foreach ($firstLane as $column)
-            <option value="{{ $column }}">{{ $column }}</option>
-        @endforeach
-    </select>
-    <label for="replacementText">Texto de reemplazo:</label>
-    <input type="text" id="replacementText" name="replacementText" placeholder="Ingrese el texto de reemplazo...">
-    <button type="submit">Reemplazar</button>
-</form>
+<div class="replaceContainer" id="replaceColumnFormContainer" style="display: none;">
+    <form id="replaceColumnForm" action="{{ route('replaceColumn', ['id' => $file->id]) }}" method="POST">
+        @csrf
+        <select class="searchInput" name="selectedColumn" id="selectedColumn">
+            <option value="" disabled selected>Selecciona una columna</option>
+            @foreach ($firstLane as $column)
+                <option value="{{ $column }}">{{ $column }}</option>
+            @endforeach
+        </select><br><br>
+    
+        <input class="searchInput" type="text" id="toReplaceText" name="toReplaceText" placeholder="Texto a reemplazar..."><br><br>
+
+        <input class="searchInput" type="text" id="replacementText" name="replacementText" placeholder="Reemplazar por..."><br><br>
+        <button class="searchButton" type="submit">Reemplazar</button>
+    </form>
+</div>
 
 <!-- --------------------Edit buttons--------------------- -->
 <button style="display: none;" class="confirmChangesButton"><img src="{{ asset('../resources/images/cheque.png') }}"></button>
@@ -320,6 +323,15 @@
             });
         });
     } */
+
+    function toggleReplaceColumnForm() {
+        var form = document.getElementById('replaceColumnFormContainer');
+        if (form.style.display === 'none') {
+            form.style.display = 'block';
+        } else {
+            form.style.display = 'none';
+        }
+    }
 </script>
 
 @endsection
