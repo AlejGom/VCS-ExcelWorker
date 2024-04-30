@@ -467,4 +467,42 @@ class FileController extends Controller
         }
         return $value;
     }
+
+    // -----------------------------------------------------------------
+    // -------------Funcion para reemplazar columnas--------------------
+    // -----------------------------------------------------------------
+
+    public function replaceColumn(Request $request, $id) {
+
+            $selectedColumn  = $request->selectedColumn;
+            $replacementText = $request->replacementText;
+
+            $file      = File::findOrFail($id);
+            $filePath  = storage_path('app/' . $file->file_path);
+            $extension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+
+            switch ($extension) {
+                case 'xlsx': $extensionCode = 'Xlsx'; break;
+                case 'xls':  $extensionCode = 'Xls'; break;
+                case 'ods':  $extensionCode = 'Ods'; break;
+                default: return redirect('/mainPage')->with('extensionError','Extension no soportada');
+            }
+
+            $reader      = IOFactory::createReader($extensionCode);
+            $spreadsheet = $reader->load($filePath);
+            $sheet       = $spreadsheet->getActiveSheet();
+        
+            $columnIndex = array_search($selectedColumn, $sheet->toArray()[1]);
+        
+            foreach ($sheet->getRowIterator() as $row) {
+                $cellCoordinate = Coordinate::stringFromColumnIndex($columnIndex + 1) . $row->getRowIndex();
+                $sheet->setCellValue($cellCoordinate, $replacementText);
+            }
+        
+            $writer = IOFactory::createWriter($spreadsheet, $extensionCode);
+            $writer->save($filePath);
+
+            return redirect('/files/' . $id);
+
+    }
 }

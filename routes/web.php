@@ -55,6 +55,7 @@ Route::post('/editFileName/{id}', [FileController::class, 'editFileName'])->name
 
 Route::post('/updateCell', [FileController::class,'updateCell'])->name('updateCell')->middleware('auth');
 
+Route::post('/replaceColumn/{id}', [FileController::class,'replaceColumn'])->name('replaceColumn')->middleware('auth');
 // -------------------------------------------------------------------------------
 // Others
 Route::get('/mainPage', [FileController::class,'mainPage'])->name('mainPage')->middleware('auth');

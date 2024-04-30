@@ -14,6 +14,9 @@
 <!-- Container to manage submenu -->
 <div class="manageButtonsContainer">
     <!-- Convert dates to specific date -->
+    <a class="dateButton" onclick="openPopupForm()"><button>Reemplazar columna</button></a>
+    
+    <div class="spaceBetween"></div>
     <a class="dateButton" onclick="showLoading()" href="{{ route('readAndConvertDates', $file->id) }}"><button>Cambiar fechas a dd/mm/yyyy</button></a>
     <div class="spaceBetween"></div>
     <!-- Edit file name -->
@@ -42,6 +45,20 @@
 <div class="buttonContainer">
     <a href="{{ route('goBack') }}"><button class="backButton">Volver</button></a>
 </div>
+
+<form id="replaceColumnForm" action="{{ route('replaceColumn', ['id' => $file->id]) }}" method="POST">
+    @csrf
+    <label for="selectedColumn">Selecciona la columna a reemplazar:</label>
+    <select name="selectedColumn" id="selectedColumn">
+        <option value="" disabled selected>Selecciona una columna</option>
+        @foreach ($firstLane as $column)
+            <option value="{{ $column }}">{{ $column }}</option>
+        @endforeach
+    </select>
+    <label for="replacementText">Texto de reemplazo:</label>
+    <input type="text" id="replacementText" name="replacementText" placeholder="Ingrese el texto de reemplazo...">
+    <button type="submit">Reemplazar</button>
+</form>
 
 <!-- --------------------Edit buttons--------------------- -->
 <button style="display: none;" class="confirmChangesButton"><img src="{{ asset('../resources/images/cheque.png') }}"></button>
@@ -230,6 +247,79 @@
     function showLoading() {
         document.getElementById('loadingGif').style.display = 'block';
     }
+
+    /* function openPopupForm() {
+        var popup = window.open('', '_blank', 'width=600,height=400');
+
+        var formHtml = `
+            <html>
+            <head>
+                <title>Formulario de Reemplazo de Columna</title>
+                <style>
+                    body { font-family: Arial, sans-serif; width: 400px; height: 600px; }
+                    form { margin: 20px; }
+                    label { display: block; margin-bottom: 10px; }
+                    input[type="text"] { width: 100%; padding: 8px; margin-bottom: 20px; }
+                    select { width: 100%; padding: 8px; margin-bottom: 20px; }
+                    button { padding: 10px 20px; background-color: #007bff; color: white; border: none; cursor: pointer; }
+                </style>
+            </head>
+            <body>
+                <h2>Formulario de Reemplazo de Columna</h2>
+                <form id="replaceColumnForm" action="{{ route('replaceColumn', ['id' => $file->id]) }}" method="POST">
+                    <label for="selectedColumn">Selecciona la columna a reemplazar:</label>
+                    <select name="selectedColumn" id="selectedColumn">
+                        <option value="" disabled selected>Selecciona una columna</option>
+                        @foreach ($firstLane as $column)
+                            <option value="{{ $column }}">{{ $column }}</option>
+                        @endforeach
+                    </select>
+                    <label for="replacementText">Texto de reemplazo:</label>
+                    <input type="text" id="replacementText" name="replacementText" placeholder="Ingrese el texto de reemplazo...">
+                    <button type="submit">Reemplazar</button>
+                </form>
+            </body>
+            </html>
+        `;
+
+        popup.document.write(formHtml);
+
+        popup.document.getElementById('replaceColumnForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            var selectedColumn  = popup.document.getElementById('selectedColumn').value;
+            var replacementText = popup.document.getElementById('replacementText').value;
+            
+            $.ajax({
+                url: '{{ route('replaceColumn', ['id' => $file->id]) }}',
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    selectedColumn: selectedColumn,
+                    replacementText: replacementText
+                },
+                success: function(response) {
+                    
+                    if (response.success) {
+                        
+                        popup.close();
+                        
+                        location.reload();
+                    } else {
+                        
+                        popup.close();
+
+                        window.location = '{{ route('mainPage') }}';
+                        
+                    }
+                },
+                error: function(xhr, status, error) {
+
+                    console.error('Error en la solicitud AJAX:', error);
+                }
+            });
+        });
+    } */
 </script>
 
 @endsection
