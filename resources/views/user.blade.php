@@ -19,6 +19,10 @@
     <a href="{{ route('deleteUser', ['id' => $user->id]) }}" class="deleteButton" id="deleteUser_{{ $user->id }}"><button>Eliminar cuenta</button></a>
 </div>
 
+@if (auth()->user()->name === 'admin')
+    <a href="{{ route('changePassword') }}" class="submitButton"><button>Cambiar contraseñas</button></a>
+@endif
+
 @endsection
 
 <script>

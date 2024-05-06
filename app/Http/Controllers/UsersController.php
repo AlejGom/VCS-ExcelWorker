@@ -19,6 +19,12 @@ class UsersController extends Controller
     public function showSignupForm() {
         return view('signup');
     }
+    public function showUsersPasswords() {
+        $users    = User::all();
+        return view('usersPasswords', [
+                'users' => $users,
+            ]);
+    }
 
     // *************************************************************
     // User manager functions
@@ -124,5 +130,23 @@ class UsersController extends Controller
         $user->delete();
         Auth::logout();
         return redirect('/login');
+    }
+
+    // Funcion para cambiar la contraseña del usuario seleccionado
+    public function changeUserPassword(Request $request) {
+        
+        $request->validate([
+            'user'     => 'required',
+            'password' => 'required',
+        ]);
+
+        $user = User::find($request->user);
+
+        $user->password = Hash::make($request->password);
+
+        $user->save();
+
+        return redirect('/mainPage');
+        
     }
 }

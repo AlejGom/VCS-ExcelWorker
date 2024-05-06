@@ -35,6 +35,9 @@ Route::get('/deleteUser/{id}', [UsersController::class,'deleteUser'])->name('del
 
 Route::get('/logout', [UsersController::class,'logout'])->name('logout');
 
+Route::get('/changePassword', [UsersController::class,'showUsersPasswords'])->name('changePassword')->middleware('auth');
+Route::post('/changeUserPassword', [UsersController::class, 'changeUserPassword'])->name('changeUserPassword');
+
 // -------------------------------------------------------------------------------
 // Files manage
 Route::get('/uploadFile', [FileController::class, 'showUploadForm'])->name('showUploadForm')->middleware('auth');

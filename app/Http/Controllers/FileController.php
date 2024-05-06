@@ -434,9 +434,7 @@ class FileController extends Controller
         }
 
         $reader      = IOFactory::createReader($extensionCode);
-
         $spreadsheet = $reader->load($filePath);      
-
         $sheet       = $spreadsheet->getActiveSheet();
 
         foreach ($sheet->getRowIterator() as $row) {
@@ -473,6 +471,13 @@ class FileController extends Controller
     // -----------------------------------------------------------------
 
     public function replaceColumn(Request $request, $id) {
+        
+        $this->validate($request, [
+            'selectedColumn'  => 'required',
+            'toReplaceText'   => 'required',
+            'replacementText' => 'required',
+        ]);
+
         $selectedColumn  = $request->selectedColumn;
         $selectedText    = $request->toReplaceText;
         $replacementText = $request->replacementText;
@@ -482,7 +487,7 @@ class FileController extends Controller
         $extension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
     
         switch ($extension) {
-            case 'xlsx': $extensionCode = 'Xlsx'; break;
+            case 'xlsx': $extensionCode  = 'Xlsx'; break;
             case 'xls':  $extensionCode  = 'Xls'; break;
             case 'ods':  $extensionCode  = 'Ods'; break;
             default: return redirect('/mainPage')->with('extensionError', 'Extension no soportada');
