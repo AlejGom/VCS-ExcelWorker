@@ -64,7 +64,7 @@
 </div>
 
 <!-- --------------------Edit buttons--------------------- -->
-<button style="display: none;" class="confirmChangesButton"><img src="{{ asset('../resources/images/cheque.png') }}"></button>
+<button style="display: none;" class="confirmChangesButton"><img src="{{ asset('../resources/images/ahorrar.png') }}"></button>
 <a style="display: none;" class="deleteButton" href="{{ route('readFile', $file->id) }}"><img src="{{ asset('../resources/images/borrar.png') }}"></a>
 <!-- ----------------------------------------------------- -->
 

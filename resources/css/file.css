@@ -145,15 +145,15 @@
 .confirmChangesButton{
     width: 50px;
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    bottom: 680px;
+    right: 1200px;
 }
 /* Boton para borrar los cambios */
 .deleteButton{
     width: 50px;
     position: fixed;
-    bottom: 80px;
-    right: 20px;
+    bottom: 680px;
+    right: 1100px;
 }
 .finalSpace{
     width: 100%;
