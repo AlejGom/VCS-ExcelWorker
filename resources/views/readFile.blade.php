@@ -17,7 +17,7 @@
     <a class="dateButton" onclick="toggleReplaceColumnForm()"><button>Reemplazar columna</button></a>
     
     <div class="spaceBetween"></div>
-    <a class="dateButton" onclick="showLoading()" href="{{ route('readAndConvertDates', $file->id) }}"><button>Cambiar fechas a dd/mm/yyyy</button></a>
+    <a class="dateButton" onclick="toggleReplaceExcelDate()"><button>Modificar fechas</button></a>
     <div class="spaceBetween"></div>
     <!-- Edit file name -->
     <form class="editFileNameForm" action="{{ route('editFileName', $file->id) }}" method="POST">
@@ -46,6 +46,7 @@
     <a href="{{ route('goBack') }}"><button class="backButton">Volver</button></a>
 </div>
 
+<!-- Reemplazar datos columnas de excel -->
 <div class="replaceContainer" id="replaceColumnFormContainer" style="display: none;">
     <form id="replaceColumnForm" action="{{ route('replaceColumn', ['id' => $file->id]) }}" method="POST">
         @csrf
@@ -61,6 +62,23 @@
         <input class="searchInput" type="text" id="replacementText" name="replacementText" placeholder="Reemplazar por..."><br><br>
         <button class="searchButton" type="submit">Reemplazar</button>
     </form>
+</div>
+
+<!-- Reemplazar fechas de excel -->
+<div class="replaceContainer" id="replaceExcelDates" style="display: none;">
+    <form id="replaceColumnForm" action="" method="POST">
+        @csrf
+        <select class="searchInput" name="selectedColumn" id="selectedColumn">
+            <option value="" disabled selected>Selecciona una columna</option>
+            @foreach ($firstLane as $column)
+                <option value="{{ $column }}">{{ $column }}</option>
+            @endforeach
+        </select><br><br>
+
+        <button class="searchButton" type="submit">Reemplazar</button>
+    </form><br>
+
+    <a class="dateButton" onclick="showLoading()" href="{{ route('readAndConvertDates', $file->id) }}"><button>Cambiar fechas a dd/mm/yyyy</button></a>
 </div>
 
 <!-- --------------------Edit buttons--------------------- -->
@@ -332,6 +350,14 @@
             form.style.display = 'none';
         }
     }
-</script>
 
+    function toggleReplaceExcelDate() {
+        var form = document.getElementById('replaceExcelDates');
+        if (form.style.display === 'none') {
+            form.style.display = 'block';
+        } else {
+            form.style.display = 'none';
+        }
+    }
+</script>
 @endsection

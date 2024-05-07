@@ -8,8 +8,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
 
-class FilterController extends Controller
-{
+class FilterController extends Controller {
     /**
      * Filtrar datos del archivo Excel por texto.
      *
@@ -139,6 +138,7 @@ class FilterController extends Controller
             'users'      => $users,
         ]);
     }
+
     // --------------------------------------------------------
     // -----------------------deprecated-----------------------
     // --------------------------------------------------------
