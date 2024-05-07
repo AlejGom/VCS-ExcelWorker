@@ -526,7 +526,7 @@ class FileController extends Controller
     // -------------------Change Excel date--------------------
     // --------------------------------------------------------
     
-    public function convertExcelDate(Request $request, $id) {
-        
+    public function replaceExcelDate(Request $request, $id) {
+        dd($id);
     }
 }

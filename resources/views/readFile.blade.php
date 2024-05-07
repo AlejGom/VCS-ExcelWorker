@@ -66,7 +66,7 @@
 
 <!-- Reemplazar fechas de excel -->
 <div class="replaceContainer" id="replaceExcelDates" style="display: none;">
-    <form id="replaceColumnForm" action="" method="POST">
+    <form id="replaceColumnForm" action="{{ route('replaceExcelDate', ['id' => $file->id]) }}" method="POST">
         @csrf
         <select class="searchInput" name="selectedColumn" id="selectedColumn">
             <option value="" disabled selected>Selecciona una columna</option>

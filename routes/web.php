@@ -59,6 +59,8 @@ Route::post('/editFileName/{id}', [FileController::class, 'editFileName'])->name
 Route::post('/updateCell', [FileController::class,'updateCell'])->name('updateCell')->middleware('auth');
 
 Route::post('/replaceColumn/{id}', [FileController::class,'replaceColumn'])->name('replaceColumn')->middleware('auth');
+
+Route::post('/replaceExcelDate/{id}', [FileController::class,'replaceExcelDate'])->name('replaceExcelDate')->middleware('auth');
 // -------------------------------------------------------------------------------
 // Others
 Route::get('/mainPage', [FileController::class,'mainPage'])->name('mainPage')->middleware('auth');
@@ -70,7 +72,6 @@ Route::get('/goBack', [FileController::class,'goBack'])->name('goBack')->middlew
 Route::get('/downloadFile/{id}', [FileController::class,'downloadFile'])->name('downloadFile')->middleware('auth');
 
 Route::get('/readAndConvertDates/{id}', [FileController::class,'readAndConvertDates'])->name('readAndConvertDates')->middleware('auth');
-
 // -------------------------------------------------------------------------------
 // Filters
 
