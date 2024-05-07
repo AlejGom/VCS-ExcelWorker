@@ -11,6 +11,8 @@ use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
 use App\Models\SharedFile;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
+
 
 class FileController extends Controller
 {   
@@ -496,9 +498,9 @@ class FileController extends Controller
         $reader      = IOFactory::createReader($extensionCode);
         $spreadsheet = $reader->load($filePath);
         $sheet       = $spreadsheet->getActiveSheet();
-    
+        
         $columnIndex = array_search($selectedColumn, $sheet->toArray()[1]);
-    
+
         $startRow = 3;
         
         foreach ($sheet->getRowIterator() as $row) {
@@ -527,6 +529,60 @@ class FileController extends Controller
     // --------------------------------------------------------
     
     public function replaceExcelDate(Request $request, $id) {
-        dd($id);
+        
+        $this->validate($request, [
+            'selectedColumn' => 'required',
+        ]);
+        
+        $selectedColumn = $request->selectedColumn;
+
+        $file      = File::findOrFail($id);
+        $filePath  = storage_path('app/' . $file->file_path);
+        $extension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+
+        $reader      = IOFactory::createReader(ucfirst($extension));
+        $spreadsheet = $reader->load($filePath);
+        $sheet       = $spreadsheet->getActiveSheet();
+        /* dd($sheet->toArray()[1]); */
+        $columnIndex = array_search($selectedColumn, $sheet->toArray()[1]);
+        /* dd($columnIndex); */
+        /* $lastRow = $sheet->getHighestDataRow($columnIndex); */
+
+        $startRow = 3;
+
+        foreach ($sheet->getRowIterator() as $row) {
+            $rowIndex = $row->getRowIndex();
+
+            if ($rowIndex >= $startRow) {
+                $cellCoordinate = Coordinate::stringFromColumnIndex($columnIndex + 1) . $rowIndex;
+                $cell           = $sheet->getCell($cellCoordinate);
+                $cellValue      = $cell->getValue();
+
+                if (is_numeric($cellValue)) {
+
+                    $date = Date::excelToDateTimeObject($cellValue);
+                    $formattedDate = $date->format('d/m/Y');
+
+                    $sheet->setCellValue($cellCoordinate, $formattedDate);
+                }
+            }
+        }
+        /* for ($row = 2; $row <= $lastRow; $row++) {
+            $cell  = $sheet->getCell($selectedColumn . $row);
+            $value = $cell->getValue();
+        
+            if (is_numeric($value)) {
+                $date = Date::excelToDateTimeObject($value);
+                $formattedDate = $date->format('d/m/Y');
+
+                $cell->setValue($formattedDate);
+            }
+        } */
+
+        $writer = IOFactory::createWriter($spreadsheet, ucfirst($extension));
+        $writer->save($filePath);
+
+        return redirect()->back()->with('success', 'Fechas reemplazadas exitosamente.');
+
     }
 }
