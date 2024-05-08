@@ -144,19 +144,31 @@
 .cleanButton:hover{
     background-color: #005ec2;
 }
+/* Contenedor de los botones de confirmar y borrar */
+.editButtonsContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    
+}
 /* Boton para confirmar los cambios */
 .confirmChangesButton{
     width: 50px;
-    position: fixed;
     bottom: 70%;
     right: 65%;
+    margin: 5px;
 }
 /* Boton para borrar los cambios */
 .deleteButton{
     width: 50px;
-    position: fixed;
     bottom: 70%;
     right: 60%;
+    margin: 10px;
+}
+/* Texto de recordatorio */
+.editInfo{
+    color: red;
 }
 .finalSpace{
     width: 100%;

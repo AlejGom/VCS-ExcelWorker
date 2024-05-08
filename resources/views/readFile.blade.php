@@ -38,6 +38,7 @@
         <a onclick="showLoading()" href="{{ route('readFile', $file->id) }}"><button class="cleanButton">Limpiar filtro</button></a>
     @endif
 </div>
+
 <div class="downloadContainer">
     <p><b>Descargar</b></p>
     <a class="fileName" href="{{ route('downloadFile', $file->id) }}"><b>{{ $file->name }}</b></a>
@@ -45,6 +46,14 @@
 <div class="buttonContainer">
     <a href="{{ route('goBack') }}"><button class="backButton">Volver</button></a>
 </div>
+
+<!-- --------------------Edit buttons--------------------- -->
+<div class="editButtonsContainer">
+<button style="display: none;" class="confirmChangesButton"><img src="{{ asset('../resources/images/ahorrar.png') }}"></button>
+<a style="display: none;" class="deleteButton" href="{{ route('readFile', $file->id) }}"><img class="deleteButton" src="{{ asset('../resources/images/borrar.png') }}"></a>
+</div>
+<p class="editInfo" Style="display: none;">Recuerda editar las celdas de una en una, gracias</p>
+<!-- ----------------------------------------------------- -->
 
 <!-- Reemplazar datos columnas de excel -->
 <div class="replaceContainer" id="replaceColumnFormContainer" style="display: none;">
@@ -80,11 +89,6 @@
 
     <a class="dateButton" onclick="showLoading()" href="{{ route('readAndConvertDates', $file->id) }}"><button>Cambiar fechas a dd/mm/yyyy</button></a>
 </div>
-
-<!-- --------------------Edit buttons--------------------- -->
-<button style="display: none;" class="confirmChangesButton"><img src="{{ asset('../resources/images/ahorrar.png') }}"></button>
-<a style="display: none;" class="deleteButton" href="{{ route('readFile', $file->id) }}"><img src="{{ asset('../resources/images/borrar.png') }}"></a>
-<!-- ----------------------------------------------------- -->
 
 <!-- -------------------------gif------------------------- -->
 <div id="loadingGif" style="display: none;">
@@ -186,6 +190,7 @@
             // show buttons
             $('.confirmChangesButton').show();
             $('.deleteButton').show();
+            $('.editInfo').show();
         });
 
         // update cell value on server
