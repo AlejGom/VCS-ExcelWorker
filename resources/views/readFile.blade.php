@@ -13,12 +13,17 @@
 
 <!-- Container to manage submenu -->
 <div class="manageButtonsContainer">
+    <!-- ctrl + Z -->
+    <a class="dateButton" href="{{ route('revertChanges', $file->id) }}" class="btn btn-danger"><button>Deshacer</button></a>
+    <div class="spaceBetween"></div>
+
     <!-- Convert dates to specific date -->
     <a class="dateButton" onclick="toggleReplaceColumnForm()"><button>Reemplazar columna</button></a>
-    
     <div class="spaceBetween"></div>
+
     <a class="dateButton" onclick="toggleReplaceExcelDate()"><button>Modificar fechas</button></a>
     <div class="spaceBetween"></div>
+    
     <!-- Edit file name -->
     <form class="editFileNameForm" action="{{ route('editFileName', $file->id) }}" method="POST">
         @csrf
@@ -46,10 +51,6 @@
 <div class="buttonContainer">
     <a href="{{ route('goBack') }}"><button class="backButton">Volver</button></a>
 </div>
-
-<!-- ctrl + Z -->
-<a href="{{ route('revertChanges', $file->id) }}" class="btn btn-danger">Revertir cambios</a>
-
 
 <!-- --------------------Edit buttons--------------------- -->
 <div class="editButtonsContainer">

@@ -374,6 +374,9 @@ class FileController extends Controller
         $spreadsheet = IOFactory::load($filePath);
         $sheet       = $spreadsheet->getActiveSheet();
 
+        $backupFilePath = storage_path('app/backup/' . $file->name);
+        copy($filePath, $backupFilePath);
+
         $cellCoordinate = Coordinate::stringFromColumnIndex($colIndex) . ($rowIndex + 2);
         /* dd($cellCoordinate); */
         $sheet->setCellValue($cellCoordinate, $newValue);
@@ -502,6 +505,9 @@ class FileController extends Controller
         $columnIndex = array_search($selectedColumn, $sheet->toArray()[1]);
 
         $startRow = 3;
+
+        $backupFilePath = storage_path('app/backup/' . $file->name);
+        copy($filePath, $backupFilePath);
         
         foreach ($sheet->getRowIterator() as $row) {
             $rowIndex = $row->getRowIndex();
@@ -606,9 +612,11 @@ class FileController extends Controller
             copy($backupFilePath, $originalFilePath);
             unlink($backupFilePath);
     
-            dd('Cambios revertidos exitosamente.');
+            /* dd('Cambios revertidos exitosamente.'); */
+            return redirect('/files/' . $file->id);
         } else {
-            dd('No hay cambios para revertir');
+            /* dd('No hay cambios para revertir'); */
+            return redirect('/files/' . $file->id);
         }
     }
     
