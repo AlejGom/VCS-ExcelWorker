@@ -550,6 +550,9 @@ class FileController extends Controller
 
         $startRow = 3;
 
+        $backupFilePath = storage_path('app/backup/' . $file->name);
+        copy($filePath, $backupFilePath);
+
         foreach ($sheet->getRowIterator() as $row) {
             $rowIndex = $row->getRowIndex();
 
@@ -585,4 +588,30 @@ class FileController extends Controller
         return redirect()->back()->with('success', 'Fechas reemplazadas exitosamente.');
 
     }
+
+    // --------------------------------------------------------
+    // ------------------Revert file content-------------------
+    // --------------------------------------------------------
+
+    public function revertChanges($id) {
+        
+        $file = File::findOrFail($id);
+        
+        $originalFilePath = storage_path('app/' . $file->file_path);
+    
+        $backupFilePath = storage_path('app/backup/' . $file->name);
+        
+    
+        if (file_exists($backupFilePath)) {
+            copy($backupFilePath, $originalFilePath);
+            unlink($backupFilePath);
+    
+            dd('Cambios revertidos exitosamente.');
+        } else {
+            dd('No hay cambios para revertir');
+        }
+    }
+    
+    
+    
 }

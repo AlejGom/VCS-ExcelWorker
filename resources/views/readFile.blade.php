@@ -47,6 +47,10 @@
     <a href="{{ route('goBack') }}"><button class="backButton">Volver</button></a>
 </div>
 
+<!-- ctrl + Z -->
+<a href="{{ route('revertChanges', $file->id) }}" class="btn btn-danger">Revertir cambios</a>
+
+
 <!-- --------------------Edit buttons--------------------- -->
 <div class="editButtonsContainer">
 <button style="display: none;" class="confirmChangesButton"><img src="{{ asset('../resources/images/ahorrar.png') }}"></button>
