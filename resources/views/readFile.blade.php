@@ -85,14 +85,18 @@
         <select class="searchInput" name="selectedColumn" id="selectedColumn">
             <option value="" disabled selected>Selecciona una columna</option>
             @foreach ($firstLane as $column)
-                <option value="{{ $column }}">{{ $column }}</option>
+                @if ($column && (strpos(strtolower($column), 'fecha') !== false))
+                    <option value="{{ $column }}">{{ $column }}</option>
+                @endif
             @endforeach
         </select><br><br>
 
         <button class="searchButton" type="submit">Reemplazar</button>
     </form><br>
 
-    <a class="dateButton" onclick="showLoading()" href="{{ route('readAndConvertDates', $file->id) }}"><button>Cambiar fechas a dd/mm/yyyy</button></a>
+    <div class="spaceUnder"></div><br>
+
+    <a class="dateButton" onclick="showLoading()" href="{{ route('readAndConvertDates', $file->id) }}"><button>Cambiar todas las fechas a dd/mm/yyyy</button></a>
 </div>
 
 <!-- -------------------------gif------------------------- -->
