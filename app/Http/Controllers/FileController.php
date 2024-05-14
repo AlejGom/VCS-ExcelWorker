@@ -351,42 +351,60 @@ class FileController extends Controller
     // ----------------Funcion para actualizar celda----------------------
     // -------------------------------------------------------------------
     public function updateCell(Request $request) {
-
-        $fileId    = $request->input('fileId');
-        $rowIndex  = $request->input('rowIndex');
-        $colIndex  = $request->input('colIndex');
-        $newValue  = $request->input('newValue');
-        
-        $file      = File::find($fileId);
-        $filePath  = storage_path('app/' . $file->file_path);
-
+        $fileId = $request->input('fileId');
+        $newValues = $request->input('newValues');
+        $editedPositions = $request->input('editedPositions');
+    
+        // Encuentra el archivo por su ID
+        $file = File::find($fileId);
+        if (!$file) {
+            return response()->json(['success' => false, 'message' => 'Archivo no encontrado']);
+        }
+    
+        // Obtiene la ruta del archivo
+        $filePath = storage_path('app/' . $file->file_path);
+    
+        // Obtiene la extensión del archivo
         $extension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
-
-        /* dd($extension); */
-
+    
+        // Determina el tipo de archivo basado en la extensión
         switch ($extension) {
             case 'xlsx': $extensionCode = 'Xlsx'; break;
             case 'xls':  $extensionCode = 'Xls';  break;
             case 'ods':  $extensionCode = 'Ods';  break;
-            case 'txt':  $extensionCode = 'Csv';  break; // PATHINFO_EXTENSION detected by txt from csv
-            default: return redirect('/mainPage')->with('extensionError','Extension no soportada');
+            case 'txt':  $extensionCode = 'Csv';  break; // Se asume que el archivo de texto es un archivo CSV
+            default: return response()->json(['success' => false, 'message' => 'Extensión no soportada']);
         }
+    
+        // Carga la hoja de cálculo
         $spreadsheet = IOFactory::load($filePath);
-        $sheet       = $spreadsheet->getActiveSheet();
-
+        $sheet = $spreadsheet->getActiveSheet();
+    
+        // Realiza un respaldo del archivo antes de realizar cambios
         $backupFilePath = storage_path('app/backup/' . $file->name);
         copy($filePath, $backupFilePath);
-
-        $cellCoordinate = Coordinate::stringFromColumnIndex($colIndex) . ($rowIndex + 2);
-        /* dd($cellCoordinate); */
-        $sheet->setCellValue($cellCoordinate, $newValue);
-
+    
+        // Itera sobre las posiciones editadas y actualiza los valores de las celdas
+        foreach ($editedPositions as $index => $position) {
+            $rowIndex = $position['rowIndex'];
+            $colIndex = $position['colIndex'];
+            $newValue = $newValues[$index]; // Obtén el nuevo valor correspondiente a la posición actual
+    
+            // Convierte el índice de columna en una letra de Excel (A, B, C, ...)
+            $cellCoordinate = Coordinate::stringFromColumnIndex($colIndex) . ($rowIndex + 2);
+    
+            // Establece el nuevo valor en la celda especificada
+            $sheet->setCellValue($cellCoordinate, $newValue);
+        }
+    
+        // Guarda los cambios en el archivo
         $writer = IOFactory::createWriter($spreadsheet, $extensionCode);
-        /* dd($writer); */
         $writer->save($filePath);
-
+    
         return response()->json(['success' => true]);
     }
+    
+
 
     // *************************************************************
     // Other functions

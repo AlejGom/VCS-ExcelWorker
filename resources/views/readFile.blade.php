@@ -187,87 +187,83 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
-        
-        // available edit mode at double click
-        $('.fileTable tbody').on('dblclick', 'td', function() {
-            var currentValue = $(this).text();
-            // currentValue has the value of the cell
+    // Array para almacenar las posiciones editadas
+    var editedPositions = [];
+    var newValues = [];
 
-            $(this).html('<input type="text" class="editCell" style="color: black" value="' + currentValue + '">');
-            $(this).find('.editCell').focus();
-
-            // show buttons
-            $('.confirmChangesButton').show();
-            $('.deleteButton').show();
-            $('.editInfo').show();
-        });
-
-        // update cell value on server
-        function updateCellValue(rowIndex, colIndex, newValue) {
-            
-            // sum 100 per page to rowIndex 
-            var currentPage = parseInt({{ $currentPage }});
-            console.log(currentPage);
-
-            rowIndex += (currentPage - 1) * 100;
-            
-            console.log(rowIndex, colIndex, newValue);
-            // send data to server
-            $.ajax({
-                url: '{{ route('updateCell') }}',
-                method: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    fileId: {{ $file->id }},
-                    rowIndex: rowIndex,
-                    colIndex: colIndex,
-                    newValue: newValue
-                },
-                success: function(response) {
-                    console.log(response);
-                },
-                complete: function() {
-                    // restore cell
-                    $('.fileTable tbody td.editing').each(function() {
-                        var newValue = $(this).find('.editCell').val();
-                        $(this).removeClass('editing').text(newValue);
-                    });
-                    location.reload();
-                }
-            });
-        }
-
-        // deprecated
-        // send data at press enter key
-        /* $(document).on('keyup', '.editCell', function(event) {
-            if (event.keyCode === 13) { // Enter key
-                var $cell = $(this).closest('td');
-                var newValue = $(this).val();
-                var rowIndex = $cell.closest('tr').index();
-                var colIndex = $cell.index();
-                // send data to server
-                updateCellValue(rowIndex, colIndex, newValue);
+    // Función para actualizar el valor de la celda en el servidor
+    function updateCellValue(rowIndex, colIndex, newValue) {
+        $.ajax({
+            url: '{{ route('updateCell') }}',
+            method: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                fileId: {{ $file->id }},
+                editedPositions: editedPositions, // Envía el array de posiciones editadas
+                newValues: newValues // Envía el array de nuevos valores
+            },
+            success: function(response) {
+                console.log(response);
+            },
+            complete: function() {
+                // Restaura las celdas editadas
+                $('.fileTable tbody td.editing').each(function() {
+                    var newValue = $(this).find('.editCell').val();
+                    $(this).removeClass('editing').text(newValue);
+                });
+                /* location.reload(); // Recarga la página */
+                console.log(editedPositions);
+                console.log(newValues);
             }
-        }); */
+        });
+    }
 
-        // send data at click confirm button
-        $('.confirmChangesButton').on('click', function() {
-            /* console.log('clicked'); */
-            $('.fileTable tbody .editCell').each(function() {
-                showLoading();
-                /* var $cell    = $(this).closest('td');
-                var newValue = $(this).val();
-                var rowIndex = $cell.closest('tr').index();
-                var colIndex = $cell.index(); */
-                var $cell    = $(this).closest('td');
-                var rowIndex = $cell.closest('tr').index() + $('.fileTable tbody').scrollTop() / $('.fileTable tbody tr').outerHeight();
-                var colIndex = $cell.index();
-                var newValue = $(this).val();
-                // send data to server
-                updateCellValue(Math.floor(rowIndex), colIndex, newValue);
-            });
+// Variable para controlar si se permite el doble clic
+var doubleClickEnabled = true;
+
+// Manejador de eventos para el evento de doble clic en las celdas
+$('.fileTable tbody').on('dblclick', 'td', function() {
+    if (doubleClickEnabled) {
+        var currentValue = $(this).text();
+        $(this).html('<input type="text" class="editCell" style="color: black" value="' + currentValue + '">');
+        $(this).find('.editCell').focus();
+
+        // Muestra los botones de confirmación de cambios y eliminación
+        $('.confirmChangesButton').show();
+        $('.deleteButton').show();
+        $('.editInfo').show();
+
+        // Obtiene las coordenadas de la celda editada y las agrega al array de posiciones editadas
+        var rowIndex = $(this).closest('tr').index();
+        var colIndex = $(this).index();
+        var position = { rowIndex: rowIndex, colIndex: colIndex };
+        editedPositions.push(position);
+
+        // Desactiva temporalmente el doble clic
+        doubleClickEnabled = false;
+
+        // Habilita el doble clic después de un breve retraso
+        setTimeout(function() {
+            doubleClickEnabled = true;
+        }, 1600); // 1600 milisegundos (1.6 segundo)
+    }
+});
+
+
+    // Manejador de eventos para el botón de confirmación de cambios
+    $('.confirmChangesButton').on('click', function() {
+        $('.fileTable tbody .editCell').each(function() {
+            showLoading();
+            var $cell = $(this).closest('td');
+            var newValue = $(this).val();
+            var rowIndex = $cell.closest('tr').index();
+            var colIndex = $cell.index();
+            newValues.push(newValue); // Agrega el nuevo valor al array newValues
+            updateCellValue(rowIndex, colIndex, newValue);
         });
     });
+});
+
 
     // select pages controll
     document.getElementById("rows").addEventListener("change", function() {
