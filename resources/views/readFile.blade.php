@@ -49,7 +49,7 @@
     <a class="fileName" href="{{ route('downloadFile', $file->id) }}"><b>{{ $file->name }}</b></a>
 </div>
 <div class="buttonContainer">
-    <a href="{{ route('goBack') }}"><button class="backButton">Volver</button></a>
+    <a href="{{ route('goBack') }}"><button class="backButton">Salir</button></a>
 </div>
 
 <!-- --------------------Edit buttons--------------------- -->
@@ -57,7 +57,6 @@
 <button style="display: none;" class="confirmChangesButton"><img src="{{ asset('../resources/images/ahorrar.png') }}"></button>
 <a style="display: none;" class="deleteButton" href="{{ route('readFile', $file->id) }}"><img class="deleteButton" src="{{ asset('../resources/images/borrar.png') }}"></a>
 </div>
-<p class="editInfo" Style="display: none;">Recuerda editar las celdas de una en una, gracias</p>
 <!-- ----------------------------------------------------- -->
 
 <!-- Reemplazar datos columnas de excel -->
@@ -186,8 +185,8 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function() {
-    // Array para almacenar las posiciones editadas
+$(document).ready(function() {
+    // Array para almacenar las posiciones editadas y los nuevos valores
     var editedPositions = [];
     var newValues = [];
 
@@ -211,58 +210,55 @@
                     var newValue = $(this).find('.editCell').val();
                     $(this).removeClass('editing').text(newValue);
                 });
-                /* location.reload(); // Recarga la página */
-                console.log(editedPositions);
-                console.log(newValues);
+                location.reload(); // Recarga la página
+                /* console.log(editedPositions);
+                console.log(newValues); */
+                
+                // Reinicia los arrays para la próxima edición
+                editedPositions = [];
+                newValues = [];
             }
         });
     }
 
-// Variable para controlar si se permite el doble clic
-var doubleClickEnabled = true;
+    // Variable para controlar la edición de doble clic
+    var lastEditedCell = null;
 
-// Manejador de eventos para el evento de doble clic en las celdas
-$('.fileTable tbody').on('dblclick', 'td', function() {
-    if (doubleClickEnabled) {
-        var currentValue = $(this).text();
-        $(this).html('<input type="text" class="editCell" style="color: black" value="' + currentValue + '">');
-        $(this).find('.editCell').focus();
+    // Manejador de eventos para el evento de doble clic en las celdas
+    $('.fileTable tbody').on('dblclick', 'td', function() {
+        if (lastEditedCell !== this) {
+            var currentValue = $(this).text();
+            $(this).html('<input type="text" class="editCell" style="color: black" value="' + currentValue + '">');
+            $(this).find('.editCell').focus();
 
-        // Muestra los botones de confirmación de cambios y eliminación
-        $('.confirmChangesButton').show();
-        $('.deleteButton').show();
-        $('.editInfo').show();
+            // Muestra los botones de confirmación de cambios y eliminación
+            $('.confirmChangesButton').show();
+            $('.deleteButton').show();
+            $('.editInfo').show();
 
-        // Obtiene las coordenadas de la celda editada y las agrega al array de posiciones editadas
-        var rowIndex = $(this).closest('tr').index();
-        var colIndex = $(this).index();
-        var position = { rowIndex: rowIndex, colIndex: colIndex };
-        editedPositions.push(position);
-
-        // Desactiva temporalmente el doble clic
-        doubleClickEnabled = false;
-
-        // Habilita el doble clic después de un breve retraso
-        setTimeout(function() {
-            doubleClickEnabled = true;
-        }, 1600); // 1600 milisegundos (1.6 segundo)
-    }
-});
-
+            // Marca la última celda editada
+            lastEditedCell = this;
+        }
+    });
 
     // Manejador de eventos para el botón de confirmación de cambios
     $('.confirmChangesButton').on('click', function() {
         $('.fileTable tbody .editCell').each(function() {
-            showLoading();
             var $cell = $(this).closest('td');
             var newValue = $(this).val();
             var rowIndex = $cell.closest('tr').index();
             var colIndex = $cell.index();
-            newValues.push(newValue); // Agrega el nuevo valor al array newValues
-            updateCellValue(rowIndex, colIndex, newValue);
+            
+            // Agrega la posición editada y el nuevo valor a los arrays
+            editedPositions.push({ rowIndex: rowIndex, colIndex: colIndex });
+            newValues.push(newValue);
         });
+
+        // Llama a la función para actualizar los valores en el servidor
+        updateCellValue();
     });
 });
+
 
 
     // select pages controll
