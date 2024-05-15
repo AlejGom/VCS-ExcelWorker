@@ -49,7 +49,7 @@
     <a class="fileName" href="{{ route('downloadFile', $file->id) }}"><b>{{ $file->name }}</b></a>
 </div>
 <div class="buttonContainer">
-    <a href="{{ route('goBack') }}"><button class="backButton">Salir</button></a>
+    <a href="{{ route('goBack') }}"><button class="backButton">Volver</button></a>
 </div>
 
 <!-- --------------------Edit buttons--------------------- -->
