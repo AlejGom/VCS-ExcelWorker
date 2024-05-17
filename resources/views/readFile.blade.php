@@ -1,14 +1,7 @@
 @extends('templates.header')
 
 @section('body')
-@if (auth()->user()->name !== 'admin')
-    @if (auth()->user()->id !== $file->user_id)
-        @php
-            header('Location: ' . route('goBack'), true, 302);
-            exit();
-        @endphp
-    @endif
-@endif
+
 <link rel="stylesheet" href="{{ asset('../resources/css/file.css') }}">
 
 <!-- Container to manage submenu -->

@@ -557,7 +557,7 @@ class FileController extends Controller
         $this->validate($request, [
             'selectedColumn' => 'required',
         ]);
-        
+        /* dd($request); */
         $selectedColumn = $request->selectedColumn;
 
         $file      = File::findOrFail($id);
